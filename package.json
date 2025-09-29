@@ -1,0 +1,70 @@
+{
+  "name": "keplerscrollingapp",
+  "version": "0.0.2",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf node_modules buildinfo.json dist bvm build",
+    "start": "react-native start",
+    "test": "jest --colors --passWithNoTests",
+    "test:snapshot": "jest --colors --updateSnapshot",
+    "perfTest": "kepler exec perf kpi-visualizer --app-name com.amazondeveloper.keplerscrollingapp --iterations 10  --kpi ui-fluidity --test-scenario test/performance/generalTest.py",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "build": "react-native build-kepler --build-type Release",
+    "build:release": "react-native build-kepler --build-type Release",
+    "build:debug": "react-native build-kepler --build-type Debug",
+    "build:app": "npm-run-all build:release build:debug",
+    "release": "npm-run-all test build:app",
+    "prepublishOnly": "npm run release",
+    "zip": "zip -r KeplerScrollingApp.zip . -x '*.iml' '*.swp' '.idea/*' '*.DS_Store' '.vscode/*' '.tmp/*' 'dist/*' 'build/*' 'node_modules/*' 'buildinfo.json' 'CMakeUserPresets.json' 'npm-debug.log' 'generated/*' 'output/*' '*__pycache__/*' 'bvm/*' '.git/*'"
+  },
+  "dependencies": {
+    "@amazon-devices/kepler-ui-components": "^2.0.0",
+    "@amazon-devices/react-native-kepler": "^2.0.0",
+    "@amazon-devices/shopify__flash-list": "^2.0.0",
+    "@faker-js/faker": "^9.4.0",
+    "@reduxjs/toolkit": "^2.5.0",
+    "react": "18.2.0",
+    "react-compiler-runtime": "beta",
+    "react-native": "0.72.0",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@amazon-devices/kepler-cli-platform": "^0",
+    "@react-native-community/cli": "11.3.2",
+    "@react-native/eslint-config": "0.72.2",
+    "@react-native/metro-config": "^0.72.6",
+    "@testing-library/react-native": "^7.2.0",
+    "@tsconfig/react-native": "^3.0.2",
+    "@types/jest": "^28.0.0",
+    "@types/react": "^18.0.24",
+    "@types/react-test-renderer": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "babel-jest": "^28.0.0",
+    "babel-plugin-react-compiler": "beta",
+    "eslint": "^8.12.0",
+    "eslint-plugin-react-compiler": "beta",
+    "jest": "^28.0.0",
+    "metro-react-native-babel-preset": "^0.76.5",
+    "mustache": "^4.2.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "react-test-renderer": "18.2.0",
+    "ts-jest": "^28.0.0",
+    "typescript": "4.8.4"
+  },
+  "kepler": {
+    "projectType": "application",
+    "appName": "KeplerScrollingApp",
+    "targets": [
+      "tv"
+    ],
+    "features": [
+      "vega"
+    ],
+    "api": 0.1
+  },
+  "overrides": {}
+}
