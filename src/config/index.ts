@@ -16,5 +16,3 @@ export const CONFIG = {
   },
   FEATURES: FEATURES_CONFIG,
 };
-
-export const FOCUS_BORDER = 8;

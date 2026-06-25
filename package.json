@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@amazon-devices/kepler-ui-components": "^2.0.0",
+    "@amazon-devices/vega-carousel": "^0.x",
     "@amazon-devices/react-native-kepler": "^2.0.0",
     "@amazon-devices/shopify__flash-list": "^2.0.0",
-    "@faker-js/faker": "^9.4.0",
     "@reduxjs/toolkit": "^2.5.0",
     "react": "18.2.0",
     "react-compiler-runtime": "beta",
@@ -65,6 +65,5 @@
       "vega"
     ],
     "api": 0.1
-  },
-  "overrides": {}
+  }
 }

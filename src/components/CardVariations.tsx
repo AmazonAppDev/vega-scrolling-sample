@@ -1,22 +1,27 @@
 import React, {memo} from 'react';
-import {CardProps, CardType} from '../../types';
+import {CardProps, CardType} from '../types';
 import {Card} from './Card';
-import {DEFAULT_IMAGE_RESOLUTION} from '../../constants';
+import {DEFAULT_IMAGE_RESOLUTION} from '../constants';
 
 const checkIfDataSame = (
   prevProps: Omit<CardProps, 'cardType'>,
   nextProps: Omit<CardProps, 'cardType'>,
 ) => {
   const dataSame =
-    prevProps.data.imageUrl ===
-      nextProps.data.imageUrl &&
+    prevProps.data.resolutions[DEFAULT_IMAGE_RESOLUTION] ===
+      nextProps.data.resolutions[DEFAULT_IMAGE_RESOLUTION] &&
     prevProps.data.index === nextProps.data.index &&
     prevProps.data.rowIndex === nextProps.data.rowIndex;
   return dataSame;
 };
 
 export const HeroCard = memo(
-  ({data, scroll, setRefForFocusedCard, onFocus}: Omit<CardProps, 'cardType'>) => {
+  ({
+    data,
+    scroll,
+    setRefForFocusedCard,
+    onFocus,
+  }: Omit<CardProps, 'cardType'>) => {
     return (
       <Card
         cardType="HERO"
@@ -31,7 +36,12 @@ export const HeroCard = memo(
 );
 
 export const VerticalCard = memo(
-  ({data, scroll, setRefForFocusedCard, onFocus}: Omit<CardProps, 'cardType'>) => {
+  ({
+    data,
+    scroll,
+    setRefForFocusedCard,
+    onFocus,
+  }: Omit<CardProps, 'cardType'>) => {
     return (
       <Card
         cardType="VERTICAL"
@@ -46,7 +56,12 @@ export const VerticalCard = memo(
 );
 
 export const RegularCard = memo(
-  ({data, scroll, setRefForFocusedCard, onFocus}: Omit<CardProps, 'cardType'>) => {
+  ({
+    data,
+    scroll,
+    setRefForFocusedCard,
+    onFocus,
+  }: Omit<CardProps, 'cardType'>) => {
     return (
       <Card
         cardType="REGULAR"
@@ -67,7 +82,7 @@ export const CARD_VARIATIONS: Record<
       data,
       scroll,
       setRefForFocusedCard,
-      onFocus
+      onFocus,
     }: Omit<CardProps, 'cardType'>) => React.JSX.Element
   >
 > = {

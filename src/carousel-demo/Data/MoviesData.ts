@@ -1,0 +1,36 @@
+// Posters are bundled local assets, require()'d so the bundler packages them
+// (matching the base app's model). Each entry's `url` holds the asset module ref.
+import {ItemType} from '../Types';
+
+export const MOVIES_DATA: ItemType[] = [
+  {url: require('../../../assets/image/posters/vertical/480/1.png')},
+  {url: require('../../../assets/image/posters/vertical/480/2.png')},
+  {url: require('../../../assets/image/posters/vertical/480/3.png')},
+  {url: require('../../../assets/image/posters/vertical/480/4.png')},
+  {url: require('../../../assets/image/posters/vertical/480/5.png')},
+  {url: require('../../../assets/image/posters/vertical/480/6.png')},
+  {url: require('../../../assets/image/posters/vertical/480/7.png')},
+  {url: require('../../../assets/image/posters/vertical/480/8.png')},
+  {url: require('../../../assets/image/posters/vertical/480/9.png')},
+  {url: require('../../../assets/image/posters/vertical/480/10.png')},
+  {url: require('../../../assets/image/posters/vertical/480/11.png')},
+  {url: require('../../../assets/image/posters/vertical/480/12.png')},
+  {url: require('../../../assets/image/posters/vertical/480/13.png')},
+  {url: require('../../../assets/image/posters/vertical/480/14.png')},
+  {url: require('../../../assets/image/posters/vertical/480/15.png')},
+  {url: require('../../../assets/image/posters/vertical/480/16.png')},
+  {url: require('../../../assets/image/posters/vertical/480/17.png')},
+  {url: require('../../../assets/image/posters/vertical/480/18.png')},
+  {url: require('../../../assets/image/posters/vertical/480/19.png')},
+  {url: require('../../../assets/image/posters/vertical/480/20.png')},
+  {url: require('../../../assets/image/posters/vertical/480/21.png')},
+  {url: require('../../../assets/image/posters/vertical/480/22.png')},
+  {url: require('../../../assets/image/posters/vertical/480/23.png')},
+  {url: require('../../../assets/image/posters/vertical/480/24.png')},
+  {url: require('../../../assets/image/posters/vertical/480/25.png')},
+  {url: require('../../../assets/image/posters/vertical/480/26.png')},
+  {url: require('../../../assets/image/posters/vertical/480/27.png')},
+  {url: require('../../../assets/image/posters/vertical/480/28.png')},
+  {url: require('../../../assets/image/posters/vertical/480/29.png')},
+  {url: require('../../../assets/image/posters/vertical/480/30.png')},
+];
