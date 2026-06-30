@@ -13,7 +13,7 @@
  *   dataAdapter{...}            -> data[] + getItemForIndex + keyProvider + itemDimensions
  */
 import React, {forwardRef, Ref, useImperativeHandle, useRef} from 'react';
-import {Image, Pressable, View, Text} from 'react-native';
+import {Image, Pressable, View, Text, StyleSheet} from 'react-native';
 import {
   Carousel,
   CarouselRef,
@@ -25,13 +25,11 @@ import {ItemType, ScrollableProps} from '../Types';
 
 const INITIAL_START_INDEX = 5;
 const PIN: `${number}%` = '44%';
+const SCROLL_TO_TARGETS = [0, 5, 15, 29];
 
 const PosterView: React.FC<CarouselRenderInfo<ItemType>> = ({item}) => (
-  <Pressable style={{width: 200, height: 230}}>
-    <Image
-      style={{width: '100%', height: '100%', resizeMode: 'cover'}}
-      source={item.url}
-    />
+  <Pressable style={styles.poster}>
+    <Image style={styles.posterImage} source={item.url} />
   </Pressable>
 );
 
@@ -45,8 +43,8 @@ export const PinnedVerticalV1 = forwardRef(
     useImperativeHandle(ref, () => carouselRef.current!, []);
 
     return (
-      <View style={{width: '100%', height: '100%', backgroundColor: '#000'}}>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={styles.container}>
+        <View style={styles.row}>
           <Carousel
             ref={carouselRef}
             data={data}
@@ -62,7 +60,7 @@ export const PinnedVerticalV1 = forwardRef(
             maxToRenderPerBatch={10}
             initialStartIndex={INITIAL_START_INDEX}
             hasTVPreferredFocus={true}
-            containerStyle={{width: 200, height: '100%'}}
+            containerStyle={styles.carousel}
             itemPadding={20}
             itemScrollDelay={0.2}
             focusIndicatorType="pinned"
@@ -73,14 +71,16 @@ export const PinnedVerticalV1 = forwardRef(
               borderWidth: 3,
               borderRadius: 8,
             }}
+            selectionBorderStrategy="outset"
           />
-          <View style={{marginLeft: 40, justifyContent: 'center', flex: 1}}>
-            <Text style={{color: 'cyan', fontSize: 14, marginBottom: 20}}>
-              Vertical pinned 50% (V1) - initialStartIndex={INITIAL_START_INDEX}
+          <View style={styles.controls}>
+            <Text style={styles.title}>
+              Vertical pinned {PIN} (V1) - initialStartIndex=
+              {INITIAL_START_INDEX}
             </Text>
-            <Text style={{color: 'white', marginBottom: 10}}>scrollTo:</Text>
-            {[0, 5, 15, 29].map((idx) => (
-              <View key={idx} style={{marginBottom: 10}}>
+            <Text style={styles.scrollToLabel}>scrollTo:</Text>
+            {SCROLL_TO_TARGETS.map((idx) => (
+              <View key={idx} style={styles.button}>
                 <Button
                   label={`→${idx}`}
                   onPress={() => carouselRef.current?.scrollTo(idx, true)}
@@ -94,3 +94,15 @@ export const PinnedVerticalV1 = forwardRef(
     );
   },
 );
+
+const styles = StyleSheet.create({
+  container: {width: '100%', height: '100%', backgroundColor: '#000'},
+  row: {flex: 1, flexDirection: 'row'},
+  carousel: {width: 200, height: '100%'},
+  poster: {width: 200, height: 230},
+  posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
+  controls: {marginLeft: 40, justifyContent: 'center', flex: 1},
+  title: {color: 'cyan', fontSize: 14, marginBottom: 20},
+  scrollToLabel: {color: 'white', marginBottom: 10},
+  button: {marginBottom: 10},
+});

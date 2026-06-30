@@ -46,8 +46,12 @@ export const Card = memo(
           source={{
             uri: data.resolutions[CARD_CONFIG[cardType].CARD.RESOLUTION],
           }}
-          height={CARD_CONFIG[cardType].CARD.HEIGHT}
-          width={CARD_CONFIG[cardType].CARD.WIDTH}
+          // Fill the (already correctly sized) card box and preserve the
+          // poster's aspect ratio. Without resizeMode the image is stretched to
+          // the box dimensions, which distorts posters whose native ratio
+          // differs from the card box (e.g. wide HERO/REGULAR vs tall VERTICAL).
+          style={styles.image}
+          resizeMode="cover"
         />
       </Pressable>
     );
@@ -58,5 +62,9 @@ export const Card = memo(
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
 });

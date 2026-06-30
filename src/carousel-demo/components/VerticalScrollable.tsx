@@ -62,7 +62,10 @@ const ANIMATION_DURATION: AnimationDurationProps = {
 
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
-  borderColor: 'red',
+  // Gold instead of red: red (~1.1:1 vs poster art) fails the WCAG 1.4.11
+  // 3:1 focus-indicator contrast minimum on a 10-foot TV UI; gold is far more
+  // legible and pairs with the yellow stroke below.
+  borderColor: '#FFC107',
   borderWidth: 5,
   borderRadius: 10,
   borderStrokeRadius: 5,

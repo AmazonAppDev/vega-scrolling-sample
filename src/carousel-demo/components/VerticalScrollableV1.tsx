@@ -53,7 +53,8 @@ export const VerticalScrollableV1 = forwardRef(
         focusIndicatorType="fixed"
         selectionBorder={{
           enabled: true,
-          borderColor: 'red',
+          // Gold instead of red for WCAG focus-contrast on TV (see V2 counterpart).
+          borderColor: '#FFC107',
           borderWidth: 5,
           borderRadius: 10,
         }}

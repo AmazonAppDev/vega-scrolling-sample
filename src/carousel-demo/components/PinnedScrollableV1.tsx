@@ -12,8 +12,14 @@
  *   animationDuration           -> itemScrollDelay
  *   dataAdapter{...}            -> data[] + getItemForIndex + keyProvider + itemDimensions
  */
-import React, {forwardRef, Ref, useImperativeHandle, useRef} from 'react';
-import {Image, Pressable, View, Text} from 'react-native';
+import React, {
+  forwardRef,
+  Ref,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from 'react';
+import {Image, Pressable, View, Text, StyleSheet} from 'react-native';
 import {
   Carousel,
   CarouselRef,
@@ -43,24 +49,26 @@ const CONTENT_WIDTH = SCREEN_DIMENSION.width - SIDEBAR_WIDTH;
 type SwimlaneData = {pinOffset: PinOffset; items: ItemType[]};
 
 const PosterView: React.FC<CarouselRenderInfo<ItemType>> = ({item}) => (
-  <Pressable style={{width: 200, height: 230}}>
-    <Image
-      style={{width: '100%', height: '100%', resizeMode: 'cover'}}
-      source={item.url}
-    />
+  <Pressable style={styles.poster}>
+    <Image style={styles.posterImage} source={item.url} />
   </Pressable>
 );
 
+// Match the source poster aspect ratio (480x720 = 0.667): width 200 -> 300.
 const POSTER_DIMENSIONS: ItemInfo[] = [
-  {view: PosterView, dimension: {width: 200, height: 230}},
+  {view: PosterView, dimension: {width: 200, height: 300}},
 ];
 
+const SWIMLANE_SELECTION_BORDER = {
+  enabled: true,
+  borderColor: '#00FF00',
+  borderWidth: 3,
+  borderRadius: 8,
+};
+
 const Swimlane = ({swimlane}: {swimlane: SwimlaneData}) => (
-  <View
-    style={{height: 275, width: '100%', borderWidth: 2, borderColor: 'lime'}}>
-    <Text style={{color: 'white', marginLeft: 20, marginBottom: 5}}>
-      pin='{swimlane.pinOffset}'
-    </Text>
+  <View style={styles.swimlane}>
+    <Text style={styles.swimlaneLabel}>pin='{swimlane.pinOffset}'</Text>
     <Carousel
       data={swimlane.items}
       getItemForIndex={() => PosterView}
@@ -73,17 +81,13 @@ const Swimlane = ({swimlane}: {swimlane: SwimlaneData}) => (
       orientation={'horizontal'}
       numOffsetItems={1}
       maxToRenderPerBatch={10}
-      containerStyle={{width: '100%', height: 240}}
+      containerStyle={styles.swimlaneCarousel}
       itemPadding={20}
       itemScrollDelay={0.2}
       focusIndicatorType="pinned"
       pinnedFocusOffset={swimlane.pinOffset}
-      selectionBorder={{
-        enabled: true,
-        borderColor: '#00FF00',
-        borderWidth: 3,
-        borderRadius: 8,
-      }}
+      selectionBorder={SWIMLANE_SELECTION_BORDER}
+      selectionBorderStrategy="outset"
     />
   </View>
 );
@@ -93,22 +97,22 @@ const SwimlaneView: React.FC<CarouselRenderInfo<SwimlaneData>> = ({item}) => (
 );
 
 const ROW_DIMENSIONS: ItemInfo[] = [
-  {view: SwimlaneView, dimension: {width: CONTENT_WIDTH, height: 275}},
+  {view: SwimlaneView, dimension: {width: CONTENT_WIDTH, height: 345}},
 ];
 
 export const PinnedScrollableV1 = forwardRef(
   ({data}: ScrollableProps, ref?: Ref<CarouselRef<string>>) => {
     const scrollableRef = useRef<CarouselRef<string>>(null);
-    const swimlanes: SwimlaneData[] = PIN_OFFSETS.map((p) => ({
-      pinOffset: p,
-      items: data,
-    }));
+    const swimlanes: SwimlaneData[] = useMemo(
+      () => PIN_OFFSETS.map((p) => ({pinOffset: p, items: data})),
+      [data],
+    );
 
     useImperativeHandle(ref, () => scrollableRef.current!, []);
 
     return (
-      <View style={{width: '100%', height: '100%', backgroundColor: '#000'}}>
-        <Text style={{color: 'lime', padding: 5, fontSize: 14}}>
+      <View style={styles.container}>
+        <Text style={styles.header}>
           Pinned offset (V1): {PIN_OFFSETS.join(', ')}
         </Text>
         <Carousel
@@ -126,7 +130,7 @@ export const PinnedScrollableV1 = forwardRef(
           maxToRenderPerBatch={10}
           hasTVPreferredFocus={true}
           trapFocusOnAxis={false}
-          containerStyle={{height: '100%', width: '100%'}}
+          containerStyle={styles.outerCarousel}
           itemPadding={0}
           itemScrollDelay={0.4}
           focusIndicatorType="pinned"
@@ -136,3 +140,16 @@ export const PinnedScrollableV1 = forwardRef(
     );
   },
 );
+
+const styles = StyleSheet.create({
+  container: {width: '100%', height: '100%', backgroundColor: '#000'},
+  header: {color: 'lime', padding: 5, fontSize: 14},
+  outerCarousel: {height: '100%', width: '100%'},
+  swimlane: {height: 345, width: '100%', borderWidth: 2, borderColor: 'lime'},
+  swimlaneLabel: {color: 'white', marginLeft: 20, marginBottom: 5},
+  swimlaneCarousel: {width: '100%', height: 310},
+  // Poster cell matches the source poster aspect ratio (480x720 = 0.667), so
+  // width 200 -> height 300, letting 'cover' fill without cropping the number.
+  poster: {width: 200, height: 300},
+  posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
+});

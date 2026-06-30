@@ -3,7 +3,10 @@ import {View} from 'react-native';
 import {FlashList} from '@amazon-devices/shopify__flash-list';
 import {CardData, CardRowProps} from '../../types';
 import {ROW_CONFIG, FEATURES_CONFIG} from '../../config';
-import {cardKeyExtractor, checkIfCardRowDataSame} from '../../utils/listUtils';
+import {
+  flashlistCardKeyExtractor,
+  checkIfCardRowDataSame,
+} from '../../utils/listUtils';
 import {CardTitle} from '../CardTitle';
 import {CARD_VARIATIONS} from '../CardVariations';
 import {useDispatch, useSelector} from '../../store';
@@ -92,7 +95,7 @@ export const FlashlistCardRow = memo(
             FEATURES_CONFIG.API_PAGINATION ? cards : ROW_DATA[rowIndex].data
           }
           estimatedItemSize={ROW_CONFIG[row.cardType].WIDTH}
-          keyExtractor={cardKeyExtractor}
+          keyExtractor={flashlistCardKeyExtractor}
           renderItem={renderCard}
           removeClippedSubviews={true}
           scrollEnabled={false}

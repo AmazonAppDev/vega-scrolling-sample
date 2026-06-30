@@ -4,7 +4,7 @@ import {FlashList} from '@amazon-devices/shopify__flash-list';
 import {RowData} from '../../types';
 import {ROW_CONFIG} from '../../config';
 import {SCREEN_DIMENSION} from '../../constants';
-import {rowKeyExtractor} from '../../utils/listUtils';
+import {flashlistRowKeyExtractor} from '../../utils/listUtils';
 import {CARD_ROW_VARIATIONS} from '../CardRowVariations';
 import {View} from 'react-native';
 import {
@@ -81,7 +81,7 @@ export const FlashlistGrid = memo(
           ref={verticalRef}
           data={ROW_DATA}
           renderItem={renderRow}
-          keyExtractor={rowKeyExtractor}
+          keyExtractor={flashlistRowKeyExtractor}
           estimatedItemSize={AVG_ROW_HEIGHT}
           overrideItemLayout={overrideItemLayout}
           getItemType={getItemType}

@@ -3,6 +3,7 @@
 import React, {StrictMode, useState} from 'react';
 import {Grid} from './config';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {TVFocusGuideView} from '@amazon-devices/react-native-kepler';
 import {SCREEN_DIMENSION} from './constants';
 import {MOVIES_DATA} from './carousel-demo/Data/MoviesData';
 import {HorizontalScrollable} from './carousel-demo/components/HorizontalScrollable';
@@ -22,6 +23,8 @@ import {CarouselGridV1} from './carousel-demo/grid-v1/CarouselGridV1';
 type Tab = {
   id: string;
   title: string;
+  // One-sentence, plain-language explanation of what this demo shows.
+  description: string;
   // Short label shown on-screen describing the focus behavior this tab uses.
   // V2 prop is `selectionStrategy`; the V1 equivalent is `focusIndicatorType`.
   indicator: string;
@@ -35,6 +38,8 @@ const TABS: Tab[] = [
   {
     id: 'grid',
     title: 'Scrolling Grid (V2)',
+    description:
+      'A real-world home-screen grid: vertically scrolling rows of horizontally scrolling cards, mixing hero, regular, and vertical card sizes.',
     indicator:
       'vertical selectionStrategy="anchored" · rows selectionStrategy="pinned" · rows selectionBorder: outset, radius=card (15-30), strokeRadius=card · hasPreferredFocus=false',
     render: () => <Grid />,
@@ -42,6 +47,8 @@ const TABS: Tab[] = [
   {
     id: 'gridV1',
     title: 'Scrolling Grid (V1)',
+    description:
+      'The same home-screen grid built on the V1 carousel, for side-by-side comparison with the V2 grid above.',
     indicator:
       'vertical focusIndicatorType="fixed" · rows focusIndicatorType="pinned" · rows selectionBorder: enabled outset, radius=card (15-30), strokeRadius=card · hasTVPreferredFocus=unset (default false)',
     render: () => <CarouselGridV1 />,
@@ -49,6 +56,8 @@ const TABS: Tab[] = [
   {
     id: 'horizontal',
     title: 'Horizontal (V2)',
+    description:
+      'A single horizontally scrolling row demonstrating natural focus, where the selection moves with the focused item.',
     indicator:
       'selectionStrategy="natural" · selectionBorder: outset (default color/width, default radius) · hasPreferredFocus=true',
     render: () => <HorizontalScrollable data={MOVIES_DATA} />,
@@ -56,6 +65,8 @@ const TABS: Tab[] = [
   {
     id: 'horizontalV1',
     title: 'Horizontal (V1)',
+    description:
+      'The V1 counterpart of the horizontal natural-focus row, for side-by-side comparison.',
     indicator:
       'focusIndicatorType="natural" · selectionBorder: white 4px, outset, radius=8 · hasTVPreferredFocus=true',
     render: () => <HorizontalScrollableV1 data={MOVIES_DATA} />,
@@ -63,20 +74,26 @@ const TABS: Tab[] = [
   {
     id: 'vertical',
     title: 'Vertical (V2)',
+    description:
+      'A single vertically scrolling column demonstrating anchored focus, where the selection stays fixed and the content scrolls beneath it.',
     indicator:
-      'selectionStrategy="anchored" · selectionBorder: outset red 5px, radius=10 + yellow stroke 2px (strokeRadius=5) · hasPreferredFocus=true',
+      'selectionStrategy="anchored" · selectionBorder: outset gold 5px, radius=10 + yellow stroke 2px (strokeRadius=5) · hasPreferredFocus=true',
     render: () => <VerticalScrollable data={MOVIES_DATA} />,
   },
   {
     id: 'verticalV1',
     title: 'Vertical (V1)',
+    description:
+      'The V1 counterpart of the vertical anchored-focus column, for side-by-side comparison.',
     indicator:
-      'focusIndicatorType="fixed" · selectionBorder: red 5px, outset, radius=10 · hasTVPreferredFocus=true',
+      'focusIndicatorType="fixed" · selectionBorder: gold 5px, outset, radius=10 · hasTVPreferredFocus=true',
     render: () => <VerticalScrollableV1 data={MOVIES_DATA} />,
   },
   {
     id: 'heterogeneous',
     title: 'Heterogeneous (V2)',
+    description:
+      'A single row mixing two different item sizes, showing how the carousel lays out items of varying dimensions together.',
     indicator:
       'selectionStrategy="anchored" · selectionBorder: inset white 4px, radius=8 (strokeRadius=4) · hasPreferredFocus=true',
     render: () => <HeterogeneousItemViewScrollable data={MOVIES_DATA} />,
@@ -84,6 +101,8 @@ const TABS: Tab[] = [
   {
     id: 'heterogeneousV1',
     title: 'Heterogeneous (V1)',
+    description:
+      'The V1 counterpart of the mixed-item-size row, for side-by-side comparison.',
     indicator:
       'focusIndicatorType="fixed" · selectionBorder: white 4px, inset_fit, radius=8 · hasTVPreferredFocus=true',
     render: () => <HeterogeneousItemViewScrollableV1 data={MOVIES_DATA} />,
@@ -91,6 +110,8 @@ const TABS: Tab[] = [
   {
     id: 'scrollTo',
     title: 'ScrollTo (V2)',
+    description:
+      'Demonstrates programmatic scrollTo(index): buttons jump the carousel to a target item to test landing position.',
     indicator:
       'selectionStrategy="anchored" · selectionBorder: outset (default color/width, default radius) · hasPreferredFocus=true',
     render: () => <ScrollToItemScreen />,
@@ -98,6 +119,8 @@ const TABS: Tab[] = [
   {
     id: 'scrollToV1',
     title: 'ScrollTo (V1)',
+    description:
+      'The V1 counterpart of the programmatic scrollTo demo, for side-by-side comparison.',
     indicator:
       'focusIndicatorType="fixed" · selectionBorder: white 4px, inset_fit, radius=8 · hasTVPreferredFocus=true',
     render: () => <ScrollToItemScreenV1 />,
@@ -105,29 +128,37 @@ const TABS: Tab[] = [
   {
     id: 'pinned',
     title: 'Pinned (V2)',
+    description:
+      'Multiple rows, each pinning the selected item at a different offset (0% to 100%), to show how pinnedSelectedItemOffset positions selection.',
     indicator:
-      'selectionStrategy="pinned" · selectionBorder: green 3px, radius=8 (default strategy) + View border lime 2px · hasPreferredFocus=true',
+      'selectionStrategy="pinned" · selectionBorder: green 3px, radius=8, outset + View border lime 2px · hasPreferredFocus=true',
     render: () => <PinnedScrollable data={MOVIES_DATA} />,
   },
   {
     id: 'pinnedV1',
     title: 'Pinned (V1)',
+    description:
+      'The V1 counterpart of the per-row pinned-offset demo, for side-by-side comparison.',
     indicator:
-      'focusIndicatorType="pinned" · selectionBorder: green 3px, radius=8 (strategy left default) + View border lime 2px · hasTVPreferredFocus=true',
+      'focusIndicatorType="pinned" · selectionBorder: green 3px, radius=8, outset + View border lime 2px · hasTVPreferredFocus=true',
     render: () => <PinnedScrollableV1 data={MOVIES_DATA} />,
   },
   {
     id: 'pinnedVerticalV2',
     title: 'Pinned Vertical (V2)',
+    description:
+      'A vertical list pinning selection at a fixed offset, with scrollTo buttons to test how a pinned vertical carousel lands on a target.',
     indicator:
-      'selectionStrategy="pinned" · selectionBorder: cyan 3px, radius=8 (default strategy = outset) · hasPreferredFocus=true',
+      'selectionStrategy="pinned" · selectionBorder: cyan 3px, radius=8, outset · hasPreferredFocus=true',
     render: () => <PinnedVertical data={MOVIES_DATA} />,
   },
   {
     id: 'pinnedVerticalV1',
     title: 'Pinned Vertical (V1)',
+    description:
+      'The V1 counterpart of the pinned vertical list, for side-by-side comparison.',
     indicator:
-      'focusIndicatorType="pinned" · selectionBorder: cyan 3px, radius=8 (strategy left default) · hasTVPreferredFocus=true',
+      'focusIndicatorType="pinned" · selectionBorder: cyan 3px, radius=8, outset · hasTVPreferredFocus=true',
     render: () => <PinnedVerticalV1 data={MOVIES_DATA} />,
   },
 ];
@@ -138,21 +169,29 @@ export const App = () => {
   return (
     <StrictMode>
       <View style={styles.pageContainer}>
-        <ScrollView style={styles.sidebar}>
-          {TABS.map((tab, index) => (
-            <Pressable
-              key={tab.id}
-              onPress={() => setActiveTab(index)}
-              style={(state) => [
-                styles.tab,
-                index === activeTab && styles.tabActive,
-                (state as {focused?: boolean}).focused && styles.tabFocused,
-              ]}>
-              <Text style={styles.tabLabel}>{tab.title}</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
+        {/* autoFocus makes the guide remember the last-focused tab and redirect
+            focus back to it when focus returns to the side nav, instead of
+            letting spatial navigation pick the geometrically-nearest tab. */}
+        <TVFocusGuideView style={styles.sidebar} autoFocus>
+          <ScrollView>
+            {TABS.map((tab, index) => (
+              <Pressable
+                key={tab.id}
+                onPress={() => setActiveTab(index)}
+                style={(state) => [
+                  styles.tab,
+                  index === activeTab && styles.tabActive,
+                  (state as {focused?: boolean}).focused && styles.tabFocused,
+                ]}>
+                <Text style={styles.tabLabel}>{tab.title}</Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </TVFocusGuideView>
         <View style={styles.content}>
+          <Text style={styles.descriptionLabel}>
+            {TABS[activeTab].description}
+          </Text>
           <Text style={styles.indicatorLabel}>{TABS[activeTab].indicator}</Text>
           <View style={styles.contentInner}>{TABS[activeTab].render()}</View>
         </View>
@@ -200,6 +239,11 @@ const styles = StyleSheet.create({
   },
   contentInner: {
     flex: 1,
+  },
+  descriptionLabel: {
+    color: '#e6edf3',
+    fontSize: 15,
+    marginBottom: 6,
   },
   indicatorLabel: {
     color: '#9fb3c8',

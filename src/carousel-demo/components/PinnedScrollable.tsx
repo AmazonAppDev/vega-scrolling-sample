@@ -59,6 +59,7 @@ const SWIMLANE_ANIMATION_DURATION: AnimationDurationProps = {
 };
 
 const SWIMLANE_SELECTION_BORDER: SelectionBorderProps = {
+  borderStrategy: 'outset',
   borderColor: '#00FF00',
   borderWidth: 3,
   borderRadius: 8,
@@ -180,9 +181,15 @@ const styles = StyleSheet.create({
   container: {width: '100%', height: '100%', backgroundColor: '#000'},
   header: {color: 'lime', padding: 5, fontSize: 14},
   outerCarousel: {height: '100%', width: '100%'},
-  swimlane: {height: 275, width: '100%', borderWidth: 2, borderColor: 'lime'},
+  swimlane: {height: 345, width: '100%', borderWidth: 2, borderColor: 'lime'},
   swimlaneLabel: {color: 'white', marginLeft: 20, marginBottom: 5},
-  swimlaneCarousel: {width: '100%', height: 240},
-  poster: {width: 200, height: 230},
+  // Match V1's heights (row 345 / container 310 over the 300px poster) so the
+  // gap between the card and the lime row border is consistent across V1 and V2.
+  swimlaneCarousel: {width: '100%', height: 310},
+  // Poster cell matches the source poster aspect ratio (480x720 = 0.667), so
+  // width 200 -> height 300. With this ratio, resizeMode 'cover' fills the cell
+  // without cropping the image (and the number baked into the bottom stays
+  // visible). The container/row heights above are sized to fit this cell.
+  poster: {width: 200, height: 300},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
 });
