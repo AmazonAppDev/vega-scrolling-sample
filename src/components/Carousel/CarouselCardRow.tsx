@@ -24,10 +24,7 @@ import {
   checkIfCardRowDataSame,
 } from '../../utils/listUtils';
 
-// Render-independent values are defined once at module scope so every row shares
-// the same reference. This avoids per-render allocations and keeps the props
-// passed to <Carousel> referentially stable, which is important for performance
-// and concurrent-rendering safety (no spurious work from changed prop identity).
+// Module-scope handlers/objects: stable references shared across all rows.
 const notifyDataError = (_error: CarouselDataError): boolean => false; // Don't retry
 
 const getSelectedItemOffset = (

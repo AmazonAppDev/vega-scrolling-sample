@@ -31,8 +31,7 @@ const INITIAL_START_INDEX = 5;
 const PIN = '44%';
 const SCROLL_TO_TARGETS = [0, 5, 15, 29];
 
-// Render-independent handlers/objects defined once at module scope for stable
-// references (no per-render allocations, stable <Carousel> prop identity).
+// Module-scope handlers/objects: stable references across renders.
 const getItemKey = (info: CarouselRenderInfo) => `${info.index}`;
 const notifyDataError = () => false;
 

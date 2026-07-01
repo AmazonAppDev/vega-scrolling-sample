@@ -46,10 +46,7 @@ export const Card = memo(
           source={{
             uri: data.resolutions[CARD_CONFIG[cardType].CARD.RESOLUTION],
           }}
-          // Fill the (already correctly sized) card box and preserve the
-          // poster's aspect ratio. Without resizeMode the image is stretched to
-          // the box dimensions, which distorts posters whose native ratio
-          // differs from the card box (e.g. wide HERO/REGULAR vs tall VERTICAL).
+          // cover preserves the poster's aspect ratio instead of stretching it.
           style={styles.image}
           resizeMode="cover"
         />

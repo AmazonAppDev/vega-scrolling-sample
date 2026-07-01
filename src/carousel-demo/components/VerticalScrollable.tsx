@@ -14,11 +14,8 @@ import React from 'react';
 import {ItemType, ScrollableProps} from '../Types';
 import {CAROUSEL_STYLE} from './Style';
 
-// Render-independent values live at module scope so they keep a stable
-// reference across renders — no per-render allocations and stable <Carousel>
-// prop identity (better for performance and concurrent-rendering safety).
-// ItemView must be a stable component type; defining it inside the parent
-// would remount every item on each render.
+// Module scope so ItemView is a stable component type; defining it inside the
+// parent would remount every item on each render.
 function ItemView({item}: CarouselRenderInfo<ItemType>): JSX.Element {
   return (
     <Pressable style={[CAROUSEL_STYLE.itemVerticalContainer]}>
@@ -62,9 +59,7 @@ const ANIMATION_DURATION: AnimationDurationProps = {
 
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
-  // Gold instead of red: red (~1.1:1 vs poster art) fails the WCAG 1.4.11
-  // 3:1 focus-indicator contrast minimum on a 10-foot TV UI; gold is far more
-  // legible and pairs with the yellow stroke below.
+  // Gold, not red: red fails WCAG 3:1 focus contrast against poster art.
   borderColor: '#FFC107',
   borderWidth: 5,
   borderRadius: 10,

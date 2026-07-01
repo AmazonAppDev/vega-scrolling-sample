@@ -32,10 +32,7 @@ const PIN_OFFSETS: PinOffset[] = [
 
 type SwimlaneData = {pinOffset: PinOffset; items: ItemType[]};
 
-// Render-independent handlers/objects are defined once at module scope so they
-// keep a stable reference across renders — no per-render allocations and stable
-// <Carousel> prop identity (better for performance and concurrent-rendering
-// safety). Data-dependent adapters are memoized per component instance below.
+// Module-scope handlers/objects: stable references across renders.
 const notifyDataError = (): boolean => false; // Don't retry
 
 const swimlaneKeyProvider = (info: CarouselRenderInfo) =>
@@ -183,13 +180,8 @@ const styles = StyleSheet.create({
   outerCarousel: {height: '100%', width: '100%'},
   swimlane: {height: 345, width: '100%', borderWidth: 2, borderColor: 'lime'},
   swimlaneLabel: {color: 'white', marginLeft: 20, marginBottom: 5},
-  // Match V1's heights (row 345 / container 310 over the 300px poster) so the
-  // gap between the card and the lime row border is consistent across V1 and V2.
   swimlaneCarousel: {width: '100%', height: 310},
-  // Poster cell matches the source poster aspect ratio (480x720 = 0.667), so
-  // width 200 -> height 300. With this ratio, resizeMode 'cover' fills the cell
-  // without cropping the image (and the number baked into the bottom stays
-  // visible). The container/row heights above are sized to fit this cell.
+  // 200x300 matches the source poster ratio (480x720) so 'cover' doesn't crop.
   poster: {width: 200, height: 300},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
 });

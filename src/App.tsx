@@ -23,10 +23,8 @@ import {CarouselGridV1} from './carousel-demo/grid-v1/CarouselGridV1';
 type Tab = {
   id: string;
   title: string;
-  // One-sentence, plain-language explanation of what this demo shows.
   description: string;
-  // Short label shown on-screen describing the focus behavior this tab uses.
-  // V2 prop is `selectionStrategy`; the V1 equivalent is `focusIndicatorType`.
+  // On-screen focus-behavior label. V2 uses `selectionStrategy`; V1 uses `focusIndicatorType`.
   indicator: string;
   render: () => React.ReactElement;
 };

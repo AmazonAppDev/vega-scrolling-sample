@@ -13,9 +13,8 @@ export const rowKeyExtractor = (info: CarouselRenderInfo<RowData>) => {
   return `${info.item.cardType} ROW-${info.index}`;
 };
 
-// FlashList calls keyExtractor with (item, index) as separate positional args,
-// so it needs its own extractors. Using the Carousel ones above would read
-// `info.item` off the CardData/RowData itself and crash at runtime.
+// FlashList calls keyExtractor with (item, index), not a CarouselRenderInfo, so
+// it needs its own extractors — the Carousel ones above would crash here.
 export const flashlistCardKeyExtractor = (item: CardData, index: number) => {
   return `${item.cardType} CARD-${index} [${item.dataIndex}]`;
 };

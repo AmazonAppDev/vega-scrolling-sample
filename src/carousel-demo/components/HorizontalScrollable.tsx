@@ -16,12 +16,8 @@ import {Ref, forwardRef, useImperativeHandle, useRef} from 'react';
 import {ItemType, ScrollableProps} from '../Types';
 import {CAROUSEL_STYLE} from './Style';
 
-// Everything that does not depend on props/state is defined once at module
-// scope so it has a stable reference across renders. Stable identity avoids
-// per-render allocations and keeps the props passed to <Carousel> from
-// changing identity, which matters for performance and concurrent-rendering
-// safety. ItemView in particular must be a stable component type — defining it
-// inside the parent would remount every item on each render.
+// Module scope so ItemView is a stable component type; defining it inside the
+// parent would remount every item on each render.
 function ItemView({item}: CarouselRenderInfo<ItemType>): JSX.Element {
   return (
     <Pressable style={[CAROUSEL_STYLE.itemHorizontalContainer]}>

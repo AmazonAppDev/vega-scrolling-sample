@@ -17,9 +17,7 @@ import {store} from '../../store';
 import {Provider} from 'react-redux';
 
 // The grid renders a fixed module-level dataset (ROW_DATA), so its renderer and
-// data adapter are render-independent. Defining them once at module scope keeps
-// every prop passed to <Carousel> referentially stable across renders — better
-// for performance and concurrent-rendering safety than re-creating them inline.
+// data adapter can live at module scope rather than being memoized per instance.
 const renderRow = buildRowRenderer();
 
 const notifyDataError = (_error: CarouselDataError): boolean => false; // Don't retry

@@ -54,7 +54,7 @@ const PosterView: React.FC<CarouselRenderInfo<ItemType>> = ({item}) => (
   </Pressable>
 );
 
-// Match the source poster aspect ratio (480x720 = 0.667): width 200 -> 300.
+// 200x300 matches the source poster ratio (480x720).
 const POSTER_DIMENSIONS: ItemInfo[] = [
   {view: PosterView, dimension: {width: 200, height: 300}},
 ];
@@ -148,8 +148,7 @@ const styles = StyleSheet.create({
   swimlane: {height: 345, width: '100%', borderWidth: 2, borderColor: 'lime'},
   swimlaneLabel: {color: 'white', marginLeft: 20, marginBottom: 5},
   swimlaneCarousel: {width: '100%', height: 310},
-  // Poster cell matches the source poster aspect ratio (480x720 = 0.667), so
-  // width 200 -> height 300, letting 'cover' fill without cropping the number.
+  // 200x300 matches the source poster ratio (480x720) so 'cover' doesn't crop.
   poster: {width: 200, height: 300},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
 });
