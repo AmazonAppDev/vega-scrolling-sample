@@ -1,91 +1,125 @@
-import React, { memo, useCallback } from 'react';
-import { View } from 'react-native';
+import React, {memo, useCallback, useMemo} from 'react';
+import {View} from 'react-native';
+import {CardRowProps, CardData} from '../../types';
+import {CARD_CONFIG} from '../../config/layout/cardConfig';
+import {ROW_CONFIG, FEATURES_CONFIG} from '../../config';
 
-import { Carousel } from '@amazon-devices/kepler-ui-components';
+import {
+  Carousel,
+  CarouselRenderInfo,
+  CarouselDataError,
+  CarouselSelectionChangeEvent,
+  ShiftFactor,
+  CarouselItemStyleProps,
+  AnimationDurationProps,
+  SelectionBorderProps,
+} from '@amazon-devices/vega-carousel';
+import {CardTitle} from '../CardTitle';
+import {useDispatch, useSelector} from '../../store';
+import {fetchMoreCards} from '../../thunks/paginationThunks';
 
-import { CardTitle, CARD_VARIATIONS } from "../Card";
-import { CARD_CONFIG, FEATURES_CONFIG, ROW_CONFIG } from '../../config';
-import { ROW_DATA } from '../../data';
-import { useDispatch, useSelector } from '../../store';
-import { fetchMoreCards } from '../../thunks/paginationThunks';
-import { CardData, CardRowProps } from '../../types';
 import {
   buildCardRenderer,
   cardKeyExtractor,
   checkIfCardRowDataSame,
-} from '../../utils';
+} from '../../utils/listUtils';
 
-const CAROUSEL_ITEM_DIMENSIONS = [
-  {
-    view: CARD_VARIATIONS.HERO,
-    dimension: {
-      width: ROW_CONFIG.HERO.WIDTH,
-      height: CARD_CONFIG.HERO.CARD.HEIGHT,
-    },
-  },
-  {
-    view: CARD_VARIATIONS.VERTICAL,
-    dimension: {
-      width: ROW_CONFIG.VERTICAL.WIDTH,
-      height: CARD_CONFIG.VERTICAL.CARD.HEIGHT,
-    },
-  },
-  {
-    view: CARD_VARIATIONS.REGULAR,
-    dimension: {
-      width: ROW_CONFIG.REGULAR.WIDTH,
-      height: CARD_CONFIG.REGULAR.CARD.HEIGHT,
-    },
-  },
-];
+// Module-scope handlers/objects: stable references shared across all rows.
+const notifyDataError = (_error: CarouselDataError): boolean => false; // Don't retry
 
-export const CarouselCardRow = memo(({ rowIndex }: CardRowProps) => {
-  // See docs on pagination for details on Redux, selectors, and the role of onFocusUpdate
-  const row = useSelector(({ rows }) => rows[rowIndex]);
-  const cards = row.data || [];
+const getSelectedItemOffset = (
+  _info: CarouselRenderInfo,
+): ShiftFactor | undefined => undefined; // Use the default offset.
+
+const onSelectionChanged = (event: CarouselSelectionChangeEvent): void => {
+  if (__DEV__) {
+    console.info('Selection changed:', event);
+  }
+};
+
+const ITEM_STYLE: CarouselItemStyleProps = {
+  itemPadding: 20,
+  itemPaddingOnSelection: 20,
+  pressedItemScaleFactor: 0.8,
+  selectedItemScaleFactor: 1,
+  getSelectedItemOffset,
+};
+
+const ANIMATION_DURATION: AnimationDurationProps = {
+  itemPressedDuration: 0.15,
+  itemScrollDuration: 0.2,
+  containerSelectionChangeDuration: 0.25,
+};
+
+export const CarouselCardRow = memo(({rowIndex}: CardRowProps) => {
+  const row = useSelector(({rows}) => rows[rowIndex]);
+  const cards = useMemo(() => row.data || [], [row.data]);
   const dispatch = useDispatch();
   const paginationBatchSize = ROW_CONFIG[row.cardType].API_PAGE_SIZE;
 
-  const onFocusUpdate = useCallback((cardData: CardData) => {
-        console.log(
-          `[API Carousel] Focused on card ${cardData.index} in row ${rowIndex}.`,
-        );
-        
-        if (FEATURES_CONFIG.API_PAGINATION) {
-          dispatch(
-            fetchMoreCards(
-              cardData,
-              paginationBatchSize,
-              rowIndex
-            )
-          );
-        }
-  
-      }, [dispatch, paginationBatchSize, rowIndex]);
+  const onFocusUpdate = useCallback(
+    (cardData: CardData) => {
+      if (FEATURES_CONFIG.API_PAGINATION) {
+        dispatch(fetchMoreCards(cardData, paginationBatchSize, rowIndex));
+      }
+    },
+    [dispatch, paginationBatchSize, rowIndex],
+  );
 
-  const renderCard = buildCardRenderer({ onFocus: onFocusUpdate })
+  const renderCard = useMemo(
+    () => buildCardRenderer({onFocus: onFocusUpdate}),
+    [onFocusUpdate],
+  );
 
-  const getItemForIndex = useCallback(
-    () => CARD_VARIATIONS[row.cardType],
+  const getItemCount = useCallback(() => cards.length, [cards]);
+
+  const getItem = useCallback(
+    (index: number) =>
+      index >= 0 && index < cards.length ? cards[index] : undefined,
+    [cards],
+  );
+
+  const dataAdapter = useMemo(
+    () => ({
+      getItem,
+      getItemCount,
+      getItemKey: cardKeyExtractor,
+      notifyDataError,
+    }),
+    [getItem, getItemCount],
+  );
+
+  const selectionBorder = useMemo<SelectionBorderProps>(
+    () => ({
+      borderStrategy: 'outset',
+      borderRadius: CARD_CONFIG[row.cardType].CARD.BORDER_RADIUS,
+      borderStrokeRadius: CARD_CONFIG[row.cardType].CARD.BORDER_RADIUS,
+    }),
     [row.cardType],
   );
 
-  console.log(`[API Carousel] Rendering row ${rowIndex} with ${cards.length} cards.`);
-
   return (
-    <View style={{ height: ROW_CONFIG[row.cardType].HEIGHT }}>
+    <View style={{height: ROW_CONFIG[row.cardType].HEIGHT}}>
       <CardTitle cardType={row.cardType} title={row.title} />
       <Carousel
-        orientation="horizontal"
-        focusIndicatorType="pinned"
-        pinnedFocusOffset="50%"
-        rowId={row.rowIndex}
-        data={cards}
-        keyProvider={cardKeyExtractor}
+        dataAdapter={dataAdapter}
         renderItem={renderCard}
-        itemDimensions={CAROUSEL_ITEM_DIMENSIONS}
-        getItemForIndex={getItemForIndex}
-        maxToRenderPerBatch={12}
+        testID={`horizontal-carousel-row-${rowIndex}`}
+        uniqueId={`horizontal-carousel-row-${rowIndex}`}
+        orientation="horizontal"
+        renderedItemsCount={8}
+        numOffsetItems={2}
+        navigableScrollAreaMargin={0}
+        hasPreferredFocus={false}
+        initialStartIndex={0}
+        hideItemsBeforeSelection={false}
+        trapSelectionOnOrientation={false}
+        itemStyle={ITEM_STYLE}
+        animationDuration={ANIMATION_DURATION}
+        selectionStrategy="pinned"
+        pinnedSelectedItemOffset="50%"
+        onSelectionChanged={onSelectionChanged}
+        selectionBorder={selectionBorder}
       />
     </View>
   );

@@ -1,17 +1,28 @@
 import React from 'react';
+import {CARD_VARIATIONS} from '../components/CardVariations';
+import {CardData, CardProps, CardRowProps, RowData} from '../types';
+import {CARD_ROW_VARIATIONS} from '../components/CardRowVariations';
+import {CarouselRenderInfo} from '@amazon-devices/vega-carousel';
 
-import {CARD_ROW_VARIATIONS, CARD_VARIATIONS} from '../components/Card';
-import {CardData, CardProps, CardRowProps, CardType, RowData} from '../types';
-
-export const cardKeyExtractor = (cardData: CardData, index: number) => {
-  return `${cardData.cardType} CARD-${index} [${cardData.dataIndex}]`;
+// Carousel (vega-carousel) calls getItemKey with a single CarouselRenderInfo.
+export const cardKeyExtractor = (info: CarouselRenderInfo<CardData>) => {
+  return `${info.item.cardType} CARD-${info.index} [${info.item.dataIndex}]`;
 };
 
-export const rowKeyExtractor = (rowData: RowData, index: number) => {
-  return `${rowData.cardType} ROW-${index}`;
+export const rowKeyExtractor = (info: CarouselRenderInfo<RowData>) => {
+  return `${info.item.cardType} ROW-${info.index}`;
 };
 
-// Enables seamless switching between Flashlist and Carousel, alongside buildRowRenderer
+// FlashList calls keyExtractor with (item, index), not a CarouselRenderInfo, so
+// it needs its own extractors — the Carousel ones above would crash here.
+export const flashlistCardKeyExtractor = (item: CardData, index: number) => {
+  return `${item.cardType} CARD-${index} [${item.dataIndex}]`;
+};
+
+export const flashlistRowKeyExtractor = (item: RowData, index: number) => {
+  return `${item.cardType} ROW-${index}`;
+};
+
 export const buildCardRenderer = ({scroll, onFocus}: Partial<CardProps>) => {
   const renderCard = ({item}: {item: CardData; index: number}) => {
     const Card = CARD_VARIATIONS[item.cardType];
@@ -34,7 +45,9 @@ export const buildRowRenderer = (
 ) => {
   const renderRow = ({item}: {item: RowData; index: number}) => {
     const CardRow = CARD_ROW_VARIATIONS[item.cardType];
-    return <CardRow rowIndex={item.rowIndex} scrollVertically={scrollVertically} />;
+    return (
+      <CardRow rowIndex={item.rowIndex} scrollVertically={scrollVertically} />
+    );
   };
   return renderRow;
 };

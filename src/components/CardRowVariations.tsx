@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import {CardRowProps, CardType} from '../../types';
+import {CardRowProps, CardType} from '../types';
 
-import {checkIfCardRowDataSame} from '../../utils';
-import {CardRow} from '../../config';
+import {checkIfCardRowDataSame} from '../utils/listUtils';
+import {CardRow} from '../config';
 
 export const HeroCardRow = memo(
   ({rowIndex, scrollVertically, setRefForFocusedCard}: CardRowProps) => {

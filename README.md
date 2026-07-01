@@ -1026,5 +1026,19 @@ state.rows[0].pagination
 * **Monitor performance**: Track metrics to ensure pagination improves rather than degrades user experience.
 
 
+Carousel demo tabs (V2 vs V1)
+-----------------------------
+
+This app also includes a set of carousel demo tabs that showcase the V2 carousel
+(`@amazon-devices/vega-carousel`) alongside its V1 counterpart
+(`@amazon-devices/kepler-ui-components`) for side-by-side comparison. A left-sidebar tab
+switcher pairs each demo (Scrolling Grid, Horizontal, Vertical, Heterogeneous, ScrollTo,
+Pinned, Pinned Vertical), and each tab shows an on-screen label of the focus prop it uses
+(V2 `selectionStrategy` / V1 `focusIndicatorType`).
+
+See [`src/carousel-demo/README.md`](src/carousel-demo/README.md) for the tab list and the
+full V1-to-V2 prop mapping.
+
+
 Release notes
 -------------

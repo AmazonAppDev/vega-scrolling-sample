@@ -1,65 +1,90 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo} from 'react';
+import {ROW_DATA} from '../../data';
+import {
+  Carousel,
+  CarouselRenderInfo,
+  CarouselDataError,
+  CarouselSelectionChangeEvent,
+  ShiftFactor,
+  CarouselItemDataAdapter,
+  CarouselItemStyleProps,
+  AnimationDurationProps,
+} from '@amazon-devices/vega-carousel';
+import {SCREEN_DIMENSION} from '../../constants';
+import {RowData} from '../../types';
+import {buildRowRenderer, rowKeyExtractor} from '../../utils/listUtils';
+import {store} from '../../store';
 import {Provider} from 'react-redux';
 
-import {Carousel} from '@amazon-devices/kepler-ui-components';
+// The grid renders a fixed module-level dataset (ROW_DATA), so its renderer and
+// data adapter can live at module scope rather than being memoized per instance.
+const renderRow = buildRowRenderer();
 
-import {CARD_ROW_VARIATIONS} from '../Card';
-import {ROW_CONFIG} from '../../config';
-import {PAGE_PADDING, SCREEN_DIMENSION} from '../../constants';
-import {ROW_DATA} from '../../data';
-import {store} from '../../store';
-import {buildRowRenderer, rowKeyExtractor} from '../../utils';
+const notifyDataError = (_error: CarouselDataError): boolean => false; // Don't retry
 
-const CAROUSEL_ITEM_DIMENSIONS = [
-  {
-    view: CARD_ROW_VARIATIONS.HERO,
-    dimension: {
-      width: SCREEN_DIMENSION.width - PAGE_PADDING,
-      height: ROW_CONFIG.HERO.HEIGHT,
-    },
-  },
-  {
-    view: CARD_ROW_VARIATIONS.VERTICAL,
-    dimension: {
-      width: SCREEN_DIMENSION.width - PAGE_PADDING,
-      height: ROW_CONFIG.VERTICAL.HEIGHT,
-    },
-  },
-  {
-    view: CARD_ROW_VARIATIONS.REGULAR,
-    dimension: {
-      width: SCREEN_DIMENSION.width - PAGE_PADDING,
-      height: ROW_CONFIG.REGULAR.HEIGHT,
-    },
-  },
-];
+const dataAdapter: CarouselItemDataAdapter<RowData, string> = {
+  getItem: (index: number) =>
+    index >= 0 && index < ROW_DATA.length ? ROW_DATA[index] : undefined,
+  getItemCount: () => ROW_DATA.length,
+  getItemKey: rowKeyExtractor,
+  notifyDataError,
+};
+
+const getSelectedItemOffset = (
+  _info: CarouselRenderInfo,
+): ShiftFactor | undefined => undefined; // Use the default offset.
+
+const onSelectionChanged = (event: CarouselSelectionChangeEvent): void => {
+  if (__DEV__) {
+    console.info('Selection changed:', event);
+  }
+};
+
+const CONTAINER_STYLE = {
+  height: SCREEN_DIMENSION.height,
+  width: SCREEN_DIMENSION.width,
+};
+
+const ITEM_STYLE: CarouselItemStyleProps = {
+  itemPadding: 20,
+  itemPaddingOnSelection: 20,
+  pressedItemScaleFactor: 1,
+  selectedItemScaleFactor: 1,
+  getSelectedItemOffset,
+};
+
+const ANIMATION_DURATION: AnimationDurationProps = {
+  itemPressedDuration: 0.15,
+  itemScrollDuration: 0.2,
+  containerSelectionChangeDuration: 0.25,
+};
 
 export const CarouselGrid = memo(
   () => {
-    const renderRow = buildRowRenderer();
-    const getItemForIndex = useCallback((index: number) => {
-      return CARD_ROW_VARIATIONS[ROW_DATA[index].cardType];
-    }, []);
-
     return (
       <Provider store={store}>
         <Carousel
-          containerStyle={{
-            height: SCREEN_DIMENSION.height,
-            width: SCREEN_DIMENSION.width,
-          }}
-          orientation={'vertical'}
-          focusIndicatorType='natural'
-          data={ROW_DATA}
+          dataAdapter={dataAdapter}
           renderItem={renderRow}
-          keyProvider={rowKeyExtractor}
-          itemDimensions={CAROUSEL_ITEM_DIMENSIONS}
-          getItemForIndex={getItemForIndex}
+          testID="vertical-carousel-grid"
+          uniqueId="vertical-carousel-grid-main"
+          orientation={'vertical'}
+          renderedItemsCount={8}
+          numOffsetItems={2}
+          navigableScrollAreaMargin={0}
+          hasPreferredFocus={false}
+          initialStartIndex={0}
+          hideItemsBeforeSelection={false}
+          trapSelectionOnOrientation={false}
+          containerStyle={CONTAINER_STYLE}
+          itemStyle={ITEM_STYLE}
+          animationDuration={ANIMATION_DURATION}
+          selectionStrategy="anchored"
+          pinnedSelectedItemOffset="0%"
+          onSelectionChanged={onSelectionChanged}
         />
       </Provider>
     );
   },
-  () => {
-    return true;
-  },
+  () => true,
 );

@@ -13,17 +13,22 @@ export const Orientation = {
 };
 
 export const ImageResolutions = {
-  '240': 240,
-  '320': 320,
-  '480': 480,
+  '260': 260,
+  '300': 300,
+  '400': 400,
+  '500': 500,
+  '600': 600,
   '720': 720,
+  '1080': 1080,
+  '1440': 1440,
+  '2160': 2160,
 };
 
 export type ResolutionUrls = Record<keyof typeof ImageResolutions, string>;
 
 export interface ImageData {
   dataIndex: number;
-  imageUrl: string;
+  resolutions: ResolutionUrls;
 }
 export interface CardData extends ImageData {
   index: number;

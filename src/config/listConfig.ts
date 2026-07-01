@@ -1,10 +1,11 @@
-import {Carousel, CarouselProps} from '@amazon-devices/kepler-ui-components';
-import {FlashList, FlashListProps} from '@amazon-devices/shopify__flash-list';
-
-import {CarouselCardRow, CarouselGrid} from '../components/Carousel';
-import {FlashlistCardRow, FlashlistGrid} from '../components/Flashlist';
 import {ListType} from '../types';
-export const currentList: ListType = 'FlashList';
+import {FlashList, FlashListProps} from '@amazon-devices/shopify__flash-list';
+import {Carousel, CarouselProps} from '@amazon-devices/vega-carousel';
+import {FlashlistGrid} from '../components/Flashlist/FlashlistGrid';
+import {CarouselGrid} from '../components/Carousel/CarouselGrid';
+import {FlashlistCardRow} from '../components/Flashlist/FlashlistCardRow';
+import {CarouselCardRow} from '../components/Carousel/CarouselCardRow';
+export const currentList: ListType = 'Carousel';
 
 type currentListType = typeof currentList;
 

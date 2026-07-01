@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {CardTitleProps} from '../../types'
-import {CARD_CONFIG} from '../../config';
+import {CardTitleProps} from '../types';
+import {CARD_CONFIG} from '../config/layout/cardConfig';
 
 export const CardTitle = memo(
   ({cardType, title}: CardTitleProps) => {
