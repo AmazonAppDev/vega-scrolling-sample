@@ -1,5 +1,5 @@
 import {CardType} from '../../types';
-import { CARD_CONFIG } from './cardConfig';
+import {CARD_CONFIG} from './cardConfig';
 
 type RowConfig = Record<
   CardType,

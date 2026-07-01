@@ -6,16 +6,18 @@ import {
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector,
 } from 'react-redux';
-import { FEATURES_CONFIG, ROW_CONFIG } from './config';
-import { api, ApiType } from './services/dataService';
-import { isCardDataArray } from './utils';
+import {FEATURES_CONFIG, ROW_CONFIG} from './config';
+import {api, ApiType} from './services/dataService';
 
 const initialData: RowData[] = ROW_DATA.map((row) => {
   const pageLen = ROW_CONFIG[row.cardType].API_PAGE_SIZE;
 
   return {
     ...row,
-    data: row.data.slice(0, FEATURES_CONFIG.API_PAGINATION ? pageLen : row.data.length),
+    data: row.data.slice(
+      0,
+      FEATURES_CONFIG.API_PAGINATION ? pageLen : row.data.length,
+    ),
     pagination: {
       isLoading: false,
       hasMore: true,
@@ -36,7 +38,7 @@ export const slice = createSlice({
         isLoading: boolean;
       }>,
     ) => {
-      const { rowIndex, isLoading } = action.payload;
+      const {rowIndex, isLoading} = action.payload;
       state[rowIndex].pagination.isLoading = isLoading;
     },
     setPaginationError: (
@@ -46,7 +48,7 @@ export const slice = createSlice({
         error: string | null;
       }>,
     ) => {
-      const { rowIndex, error } = action.payload;
+      const {rowIndex, error} = action.payload;
       state[rowIndex].pagination.error = error;
       state[rowIndex].pagination.isLoading = false;
     },
@@ -57,7 +59,7 @@ export const slice = createSlice({
         page: number;
       }>,
     ) => {
-      const { rowIndex, page } = action.payload;
+      const {rowIndex, page} = action.payload;
       state[rowIndex].pagination.lastRequestedPage = page;
     },
     addRowData: (
@@ -67,26 +69,20 @@ export const slice = createSlice({
         rowIndex: number;
       }>,
     ) => {
-      const { newCards, rowIndex } = action.payload;
-
-      if (rowIndex < 0) {
-        throw new Error("Redux action 'addRowData' received an invalid row index");
-      }
+      const {newCards, rowIndex} = action.payload;
       const row = state[rowIndex];
 
-      if (isCardDataArray(newCards)) {
-        newCards.forEach(card => {
-          row.data.push(card);
-        });
-      } else {
-        throw new Error("Redux action 'addRowData' received invalid card data");
-      }
-      
+      newCards.forEach((card) => {
+        row.data.push(card);
+      });
+
       row.pagination.isLoading = false;
       row.pagination.error = null;
       row.pagination.hasMore = newCards.length > 0;
-      
-      console.log(`[API PAGINATION] Row ${rowIndex} updated and now has ${row.data.length} cards`);
+
+      console.log(
+        `[API PAGINATION] Row ${rowIndex} updated and now has ${row.data.length} cards`,
+      );
     },
   },
 });
@@ -95,7 +91,7 @@ export const store = configureStore({
   reducer: {
     rows: slice.reducer,
   },
-  middleware: (getDefaultMiddleware) => 
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
         extraArgument: api,

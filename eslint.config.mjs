@@ -28,6 +28,13 @@ export default [...compat.extends("@react-native", "eslint:recommended"), {
         ecmaVersion: 5,
         sourceType: "script",
 
+        // JSX is a global namespace provided by the React/RN type definitions
+        // (used in `: JSX.Element` return annotations). Declare it so the
+        // no-undef rule does not flag it.
+        globals: {
+            JSX: "readonly",
+        },
+
         parserOptions: {
             project: "./tsconfig.json",
         },
