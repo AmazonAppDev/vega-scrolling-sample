@@ -14,36 +14,36 @@ export const CAROUSEL_STYLE = StyleSheet.create({
     resizeMode: 'cover',
   },
   itemHorizontalContainer: {
-    width: 250,
+    width: 125,
     height: '100%',
   },
   itemVerticalContainer: {
     width: '100%',
-    height: 420,
+    height: 210,
   },
   itemContainerType1: {
-    height: 420,
-    width: 200,
+    height: 210,
+    width: 100,
     justifyContent: 'center',
     alignContent: 'center',
   },
   itemContainerType2: {
-    height: 420,
-    width: 500,
+    height: 210,
+    width: 250,
     justifyContent: 'center',
     alignContent: 'center',
   },
   itemFocusContainer: {
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: 'white',
   },
   horizontalCarouselContainerStyle: {
     width: '100%',
-    height: 420,
+    height: 210,
   },
   verticalCarouselContainerStyle: {
     height: '100%',
-    width: 250,
+    width: 125,
     justifyContent: 'center',
   },
 });

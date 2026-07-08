@@ -14,6 +14,11 @@ icon = "@image/default_app_icon.png"
 [components]
 [[components.interactive]]
 id = "com.amazondeveloper.keplerscrollingapp.main"
-runtime-module = "/com.amazon.kepler.keplerscript.runtime.loader_2@IKeplerScript_2_0"
+runtime-module = "/com.amazon.kepler.runtime.react_native_kepler_4@IReactNativeKepler_0"
 launch-type = "singleton"
 categories = ["com.amazon.category.main"]
+
+[needs]
+
+[[needs.module]]
+id = "/com.amazon.kepler.runtime.react_native_kepler_4@IReactNativeKepler_0"

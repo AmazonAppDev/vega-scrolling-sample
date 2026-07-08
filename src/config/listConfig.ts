@@ -5,7 +5,7 @@ import {FlashlistGrid} from '../components/Flashlist/FlashlistGrid';
 import {CarouselGrid} from '../components/Carousel/CarouselGrid';
 import {FlashlistCardRow} from '../components/Flashlist/FlashlistCardRow';
 import {CarouselCardRow} from '../components/Carousel/CarouselCardRow';
-export const currentList: ListType = 'Carousel';
+export const currentList: ListType = 'Carousel' as ListType;
 
 type currentListType = typeof currentList;
 

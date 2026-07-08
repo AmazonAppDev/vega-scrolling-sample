@@ -18,7 +18,7 @@ import {CAROUSEL_STYLE} from './Style';
 
 // Module scope so ItemView is a stable component type; defining it inside the
 // parent would remount every item on each render.
-function ItemView({item}: CarouselRenderInfo<ItemType>): JSX.Element {
+function ItemView({item}: CarouselRenderInfo<ItemType>) {
   return (
     <Pressable style={[CAROUSEL_STYLE.itemHorizontalContainer]}>
       <Image style={CAROUSEL_STYLE.imageContainer} source={item.url} />
@@ -48,8 +48,8 @@ const getSelectedItemOffset = (_info: CarouselRenderInfo): ShiftFactor => ({
 });
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 20,
-  itemPaddingOnSelection: 20,
+  itemPadding: 10,
+  itemPaddingOnSelection: 10,
   pressedItemScaleFactor: 0.9,
   selectedItemScaleFactor: FOCUSED_ITEM_SCALE_FACTOR,
   getSelectedItemOffset,

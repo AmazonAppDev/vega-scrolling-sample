@@ -38,8 +38,8 @@ const onSelectionChanged = (event: CarouselSelectionChangeEvent): void => {
 };
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 20,
-  itemPaddingOnSelection: 20,
+  itemPadding: 10,
+  itemPaddingOnSelection: 10,
   pressedItemScaleFactor: 0.8,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,

@@ -42,8 +42,8 @@ const renderPoster = ({item}: CarouselRenderInfo<ItemType>) => (
 );
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 20,
-  itemPaddingOnSelection: 20,
+  itemPadding: 10,
+  itemPaddingOnSelection: 10,
   selectedItemScaleFactor: 1.0,
   pressedItemScaleFactor: 1.0,
 };
@@ -53,8 +53,8 @@ const ANIMATION_DURATION: AnimationDurationProps = {itemScrollDuration: 0.2};
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
   borderColor: '#00FFFF',
-  borderWidth: 3,
-  borderRadius: 8,
+  borderWidth: 2,
+  borderRadius: 4,
 };
 
 export const PinnedVertical = forwardRef(
@@ -120,11 +120,11 @@ export const PinnedVertical = forwardRef(
 const styles = StyleSheet.create({
   container: {width: '100%', height: '100%', backgroundColor: '#000'},
   row: {flex: 1, flexDirection: 'row'},
-  carousel: {width: 200, height: '100%'},
-  poster: {width: 200, height: 230},
+  carousel: {width: 100, height: '100%'},
+  poster: {width: 100, height: 115},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
-  controls: {marginLeft: 40, justifyContent: 'center', flex: 1},
-  title: {color: 'cyan', fontSize: 14, marginBottom: 20},
-  scrollToLabel: {color: 'white', marginBottom: 10},
-  button: {marginBottom: 10},
+  controls: {marginLeft: 20, justifyContent: 'center', flex: 1},
+  title: {color: 'cyan', fontSize: 7, marginBottom: 10},
+  scrollToLabel: {color: 'white', marginBottom: 5},
+  button: {marginBottom: 5},
 });

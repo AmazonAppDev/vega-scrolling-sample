@@ -16,7 +16,7 @@ import {CAROUSEL_STYLE} from './Style';
 
 // Module scope so ItemView is a stable component type; defining it inside the
 // parent would remount every item on each render.
-function ItemView({item}: CarouselRenderInfo<ItemType>): JSX.Element {
+function ItemView({item}: CarouselRenderInfo<ItemType>) {
   return (
     <Pressable style={[CAROUSEL_STYLE.itemVerticalContainer]}>
       <Image style={CAROUSEL_STYLE.imageContainer} source={item.url} />
@@ -44,8 +44,8 @@ const getSelectedItemOffset = (
 ): ShiftFactor | undefined => undefined; // Use the default offset.
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 20,
+  itemPadding: 5,
+  itemPaddingOnSelection: 10,
   pressedItemScaleFactor: 0.8,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,
@@ -59,13 +59,12 @@ const ANIMATION_DURATION: AnimationDurationProps = {
 
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
-  // Gold, not red: red fails WCAG 3:1 focus contrast against poster art.
   borderColor: '#FFC107',
-  borderWidth: 5,
-  borderRadius: 10,
-  borderStrokeRadius: 5,
+  borderWidth: 3,
+  borderRadius: 5,
+  borderStrokeRadius: 3,
   borderStrokeColor: 'yellow',
-  borderStrokeWidth: 2,
+  borderStrokeWidth: 1,
 };
 
 /**

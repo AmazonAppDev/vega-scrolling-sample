@@ -46,8 +46,8 @@ const CONTAINER_STYLE = {
 };
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 20,
-  itemPaddingOnSelection: 20,
+  itemPadding: 10,
+  itemPaddingOnSelection: 10,
   pressedItemScaleFactor: 1,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,

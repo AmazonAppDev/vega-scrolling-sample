@@ -15,7 +15,9 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
-export default [...compat.extends("@react-native", "eslint:recommended"), {
+export default [{
+    ignores: ["src/**/*.js"],
+}, ...compat.extends("@react-native", "eslint:recommended"), {
     plugins: {
         "@typescript-eslint": typescriptEslint,
         'react-compiler': reactCompiler,

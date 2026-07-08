@@ -1,7 +1,8 @@
 import {CardData} from '../types';
 import {ROW_DATA} from '../data';
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(() => resolve(), ms));
 
 const mockCardFetch = async (
   rowIndex: number,

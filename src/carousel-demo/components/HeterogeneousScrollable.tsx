@@ -16,7 +16,7 @@ import {CAROUSEL_STYLE} from './Style';
 
 // Defined at module scope so they are stable component types across renders.
 // These retain focus state because it drives the itemFocusContainer style.
-function ItemViewType1({item}: CarouselRenderInfo<ItemType>): JSX.Element {
+function ItemViewType1({item}: CarouselRenderInfo<ItemType>) {
   const [focus, setFocus] = useState<boolean>(false);
   const onFocusHandler = useCallback(() => setFocus(true), []);
   const onBlurHandler = useCallback(() => setFocus(false), []);
@@ -34,7 +34,7 @@ function ItemViewType1({item}: CarouselRenderInfo<ItemType>): JSX.Element {
   );
 }
 
-function ItemViewType2({item}: CarouselRenderInfo<ItemType>): JSX.Element {
+function ItemViewType2({item}: CarouselRenderInfo<ItemType>) {
   const [focus, setFocus] = useState<boolean>(false);
   const onFocusHandler = useCallback(() => setFocus(true), []);
   const onBlurHandler = useCallback(() => setFocus(false), []);
@@ -81,8 +81,8 @@ const getSelectedItemOffset = (_info: CarouselRenderInfo): ShiftFactor => ({
 });
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 40,
-  itemPaddingOnSelection: 40,
+  itemPadding: 20,
+  itemPaddingOnSelection: 20,
   pressedItemScaleFactor: 0.9,
   selectedItemScaleFactor: SELECTED_ITEM_SCALE_FACTOR,
   getSelectedItemOffset,
@@ -97,11 +97,11 @@ const ANIMATION_DURATION: AnimationDurationProps = {
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'inset',
   borderColor: 'white',
-  borderWidth: 4,
-  borderRadius: 8,
-  borderStrokeRadius: 4,
+  borderWidth: 2,
+  borderRadius: 4,
+  borderStrokeRadius: 2,
   borderStrokeColor: 'black',
-  borderStrokeWidth: 2,
+  borderStrokeWidth: 1,
 };
 
 /**

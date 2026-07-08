@@ -119,7 +119,7 @@ const generateRowData = () => {
         isLoading: false,
         hasMore: true,
         error: null,
-        lastRequestedIndex: 0,
+        lastRequestedPage: 0,
       },
     };
     currentOffset += ROW_CONFIG[cardType].HEIGHT;
