@@ -45,8 +45,8 @@ const renderPoster = ({item}: CarouselRenderInfo<ItemType>) => (
 );
 
 const SWIMLANE_ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 20,
-  itemPaddingOnSelection: 20,
+  itemPadding: 10,
+  itemPaddingOnSelection: 10,
   selectedItemScaleFactor: 1.0,
   pressedItemScaleFactor: 1.0,
 };
@@ -58,8 +58,8 @@ const SWIMLANE_ANIMATION_DURATION: AnimationDurationProps = {
 const SWIMLANE_SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
   borderColor: '#00FF00',
-  borderWidth: 3,
-  borderRadius: 8,
+  borderWidth: 2,
+  borderRadius: 4,
 };
 
 const outerKeyProvider = (info: CarouselRenderInfo) => `swimlane-${info.index}`;
@@ -176,12 +176,11 @@ export const PinnedScrollable = forwardRef(
 
 const styles = StyleSheet.create({
   container: {width: '100%', height: '100%', backgroundColor: '#000'},
-  header: {color: 'lime', padding: 5, fontSize: 14},
+  header: {color: 'lime', padding: 3, fontSize: 7},
   outerCarousel: {height: '100%', width: '100%'},
-  swimlane: {height: 345, width: '100%', borderWidth: 2, borderColor: 'lime'},
-  swimlaneLabel: {color: 'white', marginLeft: 20, marginBottom: 5},
-  swimlaneCarousel: {width: '100%', height: 310},
-  // 200x300 matches the source poster ratio (480x720) so 'cover' doesn't crop.
-  poster: {width: 200, height: 300},
+  swimlane: {height: 173, width: '100%', borderWidth: 1, borderColor: 'lime'},
+  swimlaneLabel: {color: 'white', marginLeft: 10, marginBottom: 3},
+  swimlaneCarousel: {width: '100%', height: 155},
+  poster: {width: 100, height: 150},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
 });

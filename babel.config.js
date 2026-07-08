@@ -4,10 +4,5 @@
  * PROPRIETARY/CONFIDENTIAL.  USE IS SUBJECT TO LICENSE TERMS.
  */
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset'],
-  plugins: [
-    ['babel-plugin-react-compiler', {
-      target: '18'
-    }],
-  ],
+  presets: ['module:@react-native/babel-preset'],
 };

@@ -337,47 +337,42 @@ It is recommended to not use the `ItemSeparatorComponent` prop. Implementing a g
 
 ### Carousel
 
-`Carousel` was built natively for Vega which allows it perform intensive scrolling operations on the native threads. Carousel has the best performance out-of-the-box compared to the other scrolling solutions. However, because it is a native Vega component, it does not work on cross-platform React Native apps. See the Vega [Carousel docs](https://developer.amazon.com/docs/vega-api/0.21/carousel.html) for more details.
+`Carousel` is provided by [`@amazon-devices/vega-carousel`](https://www.npmjs.com/package/@amazon-devices/vega-carousel). **Version >= 1.0 is required for RN 0.83 compatibility.** The V1 carousel (`@amazon-devices/kepler-ui-components`) does not support RN 0.83.
 
-#### itemDimensions
+Carousel is built natively for Vega, performing scrolling operations on native threads for best-in-class performance. Because it is a native Vega component, it does not work in cross-platform React Native apps.
 
-Unlike `FlashList`, `Carousel` requires users to define the height and width of list items.
+For full API documentation, see the [vega-carousel README](https://www.npmjs.com/package/@amazon-devices/vega-carousel?activeTab=readme).
 
-##### Horizontal list
+#### Key props
 
-Precomputed values from `CARD_CONFIG` are used.
+| Prop | Description |
+|------|-------------|
+| `dataAdapter` | Provides items to the carousel via `getItem`, `getItemCount`, and `getItemKey` |
+| `renderItem` | Renders each item given a `CarouselRenderInfo` |
+| `selectionStrategy` | Focus behavior: `'natural'`, `'anchored'`, or `'pinned'` |
+| `selectionBorder` | Native focus ring configuration (strategy, color, width, radius) |
+| `itemStyle` | Controls padding, scale factors on selection/press |
+| `orientation` | `'horizontal'` (default) or `'vertical'` |
+| `pinnedSelectedItemOffset` | Percentage offset for pinned focus (e.g. `'44%'`) |
 
-##### Vertical list
+#### Data adapter pattern
 
-The items of the vertical list are rows. The width of the rows, is the visible, scrollable part of the row. It is _not_ the combined total with of all the cards in the row. If the row fills the entire width, it matches the screen size. For example, a 1920p display would be 1920px. The scrolling app has spacing to the left of the grid. The width is calculated in the following example. 
+Unlike `FlashList` which takes a `data` array, `Carousel` uses a data adapter for lazy item resolution:
 
 ```tsx
-const CAROUSEL_ITEM_DIMENSIONS = [
-  {
-    view: CARD_ROW_VARIATIONS.HERO,
-    dimension: {
-      width: SCREEN_DIMENSION.width - PAGE_PADDING,
-      height: ROW_CONFIG.HERO.HEIGHT,
-    },
-  },
-  ...
-];
+const dataAdapter = {
+  getItem: (index: number) => data[index],
+  getItemCount: () => data.length,
+  getItemKey: (info: CarouselRenderInfo) => `${info.index}`,
+  notifyDataError: () => false,
+};
 ```
 
+#### Selection strategy
 
- **Note**: All rows of a grid layout have the same width so the same value can be used.
-
-
-
-
-#### getItemForIndex
-
-`getItemForIndex` is used to inform the Carousel what each component is used to render each element. Wrapper components were created for each `CardType` (`CardViartions` and `CardRowVariations`) so that Carousel can better distinguish between the items. Each `CardType` has different dimensions so Carousel needs to know which item  appears where.
-
-
-#### numOffsetItems, firstItemOffset, and initialStartIndex
-
-These props are used in the horizontal lists to fix the focused item to the center when scrolling. For more information, see the [Customizing scrolling](#customize-scrolling) section.
+- **`'natural'`** — Focus freely moves between visible items; the list scrolls when focus reaches the edge.
+- **`'anchored'`** — Focus stays fixed at one position; content scrolls beneath it.
+- **`'pinned'`** — Focus is pinned at a configurable offset (`pinnedSelectedItemOffset`).
 
 
 
@@ -543,32 +538,39 @@ export const Card = ({cardType, data, scroll}: CardProps) => {
 
 ### Carousel
 
-#### Fixed scrolling
+#### Anchored scrolling (default)
 
-This is the default scrolling behavior of `Carousel`. 
-
-**To fix the different areas of the scrollable window for horizontal scrolling in `CarouselCardRow`**
+The default `selectionStrategy` is `'anchored'` — the focused item stays fixed in position while content scrolls beneath it.
 
 ```tsx
-const cardWidth = ROW_CONFIG[rowData.cardType].WIDTH;
-const numItems = screenWidth / cardWidth;
-
-initialStartIndex = Math.floor(numItems / 2);
-firstItemOffset = (screenWidth - cardWidth) / 2;
-numOffsetItems = Math.ceil(numItems - 1);
-...
-
 <Carousel
-    initialStartIndex={initialStartIndex}
-    firstItemOffset={firstItemOffset}
-    numOffsetItems={numOffsetItems}
+    selectionStrategy="anchored"
+    ...
+/>
+```
+
+#### Pinned scrolling
+
+Pin the focused item at a specific percentage offset:
+
+```tsx
+<Carousel
+    selectionStrategy="pinned"
+    pinnedSelectedItemOffset="44%"
     ...
 />
 ```
 
 #### Natural scrolling
 
-Set the `focusIndicatorType` prop to `'natural'`.
+Set `selectionStrategy` to `'natural'` — focus moves freely between visible items and the list scrolls when focus reaches the edge:
+
+```tsx
+<Carousel
+    selectionStrategy="natural"
+    ...
+/>
+```
 
 ## Focus effects
 
@@ -1026,18 +1028,24 @@ state.rows[0].pagination
 * **Monitor performance**: Track metrics to ensure pagination improves rather than degrades user experience.
 
 
-Carousel demo tabs (V2 vs V1)
------------------------------
+Carousel demo tabs
+-------------------
 
-This app also includes a set of carousel demo tabs that showcase the V2 carousel
-(`@amazon-devices/vega-carousel`) alongside its V1 counterpart
-(`@amazon-devices/kepler-ui-components`) for side-by-side comparison. A left-sidebar tab
-switcher pairs each demo (Scrolling Grid, Horizontal, Vertical, Heterogeneous, ScrollTo,
-Pinned, Pinned Vertical), and each tab shows an on-screen label of the focus prop it uses
-(V2 `selectionStrategy` / V1 `focusIndicatorType`).
+This app includes carousel demo tabs that showcase `@amazon-devices/vega-carousel` (>= 1.0)
+in various configurations. A left-sidebar tab switcher provides access to demos
+(Scrolling Grid, Horizontal, Vertical, Heterogeneous, ScrollTo, Pinned, Pinned Vertical),
+and each tab shows an on-screen label of the `selectionStrategy` and `selectionBorder`
+props it uses.
 
-See [`src/carousel-demo/README.md`](src/carousel-demo/README.md) for the tab list and the
-full V1-to-V2 prop mapping.
+See [`src/carousel-demo/README.md`](src/carousel-demo/README.md) for the full tab list.
+
+
+Density-Independent Pixels (DIP)
+---------------------------------
+
+React Native 0.83 on Vega uses density-independent pixels (dp) for all layout values. The canvas reference size is 960x540 dp (scale factor 2 on 1080p displays). All style values in this app use dp units — the framework automatically scales to physical pixels.
+
+If you are migrating from RN 0.72, divide all hardcoded pixel values by the scale factor (2 for 1080p devices).
 
 
 Release notes

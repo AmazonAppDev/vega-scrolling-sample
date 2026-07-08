@@ -10,10 +10,10 @@ export const styles = StyleSheet.create({
   },
   carousel: {
     height: '50%',
-    padding: 100,
+    padding: 50,
     width: '100%',
   },
   gap: {
-    paddingTop: 200,
+    paddingTop: 100,
   },
 });

@@ -13,12 +13,7 @@ export type ScreenProps = {
   children?: ReactElement;
 };
 
-// The current samples only need data as prop. In future we can add more optionals to show other variants.
 export type ScrollableProps = {
   data: ItemType[];
-  // Optional focus-behavior override so a shared scrollable can be reused with a
-  // different indicator (e.g. ScrollTo reuses the Horizontal scrollable but wants
-  // anchored/fixed instead of the default natural). Omitted => component default.
-  selectionStrategy?: SelectionStrategy; // V2 (vega-carousel): 'natural' | 'anchored' | 'pinned'
-  focusIndicatorType?: 'natural' | 'fixed' | 'pinned'; // V1 (kepler-ui-components)
+  selectionStrategy?: SelectionStrategy;
 };
