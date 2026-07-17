@@ -26,6 +26,7 @@ import {
 } from '@amazon-devices/vega-carousel';
 import {Button} from '@amazon-devices/kepler-ui-components';
 import {ItemType, ScrollableProps} from '../Types';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 const INITIAL_START_INDEX = 5;
 const PIN = '44%';
@@ -42,8 +43,8 @@ const renderPoster = ({item}: CarouselRenderInfo<ItemType>) => (
 );
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(20),
+  itemPaddingOnSelection: scaleUxToDp(20),
   selectedItemScaleFactor: 1.0,
   pressedItemScaleFactor: 1.0,
 };
@@ -53,8 +54,8 @@ const ANIMATION_DURATION: AnimationDurationProps = {itemScrollDuration: 0.2};
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
   borderColor: '#00FFFF',
-  borderWidth: 2,
-  borderRadius: 4,
+  borderWidth: scaleUxToDp(3),
+  borderRadius: scaleUxToDp(8),
 };
 
 export const PinnedVertical = forwardRef(
@@ -120,11 +121,15 @@ export const PinnedVertical = forwardRef(
 const styles = StyleSheet.create({
   container: {width: '100%', height: '100%', backgroundColor: '#000'},
   row: {flex: 1, flexDirection: 'row'},
-  carousel: {width: 100, height: '100%'},
-  poster: {width: 100, height: 115},
+  carousel: {width: scaleUxToDp(200), height: '100%'},
+  poster: {width: scaleUxToDp(200), height: scaleUxToDp(230)},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
-  controls: {marginLeft: 20, justifyContent: 'center', flex: 1},
-  title: {color: 'cyan', fontSize: 7, marginBottom: 10},
-  scrollToLabel: {color: 'white', marginBottom: 5},
-  button: {marginBottom: 5},
+  controls: {marginLeft: scaleUxToDp(40), justifyContent: 'center', flex: 1},
+  title: {
+    color: 'cyan',
+    fontSize: scaleUxToDp(14),
+    marginBottom: scaleUxToDp(20),
+  },
+  scrollToLabel: {color: 'white', marginBottom: scaleUxToDp(10)},
+  button: {marginBottom: scaleUxToDp(10)},
 });

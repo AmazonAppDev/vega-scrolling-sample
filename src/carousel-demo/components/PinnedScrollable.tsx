@@ -15,6 +15,7 @@ import {
 } from '@amazon-devices/vega-carousel';
 import {Ref, forwardRef, useImperativeHandle, useRef} from 'react';
 import {ItemType, ScrollableProps} from '../Types';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 type PinOffset = `${number}%`;
 
@@ -45,8 +46,8 @@ const renderPoster = ({item}: CarouselRenderInfo<ItemType>) => (
 );
 
 const SWIMLANE_ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(20),
+  itemPaddingOnSelection: scaleUxToDp(20),
   selectedItemScaleFactor: 1.0,
   pressedItemScaleFactor: 1.0,
 };
@@ -58,8 +59,8 @@ const SWIMLANE_ANIMATION_DURATION: AnimationDurationProps = {
 const SWIMLANE_SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
   borderColor: '#00FF00',
-  borderWidth: 2,
-  borderRadius: 4,
+  borderWidth: scaleUxToDp(3),
+  borderRadius: scaleUxToDp(8),
 };
 
 const outerKeyProvider = (info: CarouselRenderInfo) => `swimlane-${info.index}`;
@@ -176,11 +177,20 @@ export const PinnedScrollable = forwardRef(
 
 const styles = StyleSheet.create({
   container: {width: '100%', height: '100%', backgroundColor: '#000'},
-  header: {color: 'lime', padding: 3, fontSize: 7},
+  header: {color: 'lime', padding: scaleUxToDp(5), fontSize: scaleUxToDp(14)},
   outerCarousel: {height: '100%', width: '100%'},
-  swimlane: {height: 173, width: '100%', borderWidth: 1, borderColor: 'lime'},
-  swimlaneLabel: {color: 'white', marginLeft: 10, marginBottom: 3},
-  swimlaneCarousel: {width: '100%', height: 155},
-  poster: {width: 100, height: 150},
+  swimlane: {
+    height: scaleUxToDp(345),
+    width: '100%',
+    borderWidth: scaleUxToDp(2),
+    borderColor: 'lime',
+  },
+  swimlaneLabel: {
+    color: 'white',
+    marginLeft: scaleUxToDp(20),
+    marginBottom: scaleUxToDp(5),
+  },
+  swimlaneCarousel: {width: '100%', height: scaleUxToDp(310)},
+  poster: {width: scaleUxToDp(200), height: scaleUxToDp(300)},
   posterImage: {width: '100%', height: '100%', resizeMode: 'cover'},
 });

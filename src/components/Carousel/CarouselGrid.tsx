@@ -15,6 +15,7 @@ import {RowData} from '../../types';
 import {buildRowRenderer, rowKeyExtractor} from '../../utils/listUtils';
 import {store} from '../../store';
 import {Provider} from 'react-redux';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // The grid renders a fixed module-level dataset (ROW_DATA), so its renderer and
 // data adapter can live at module scope rather than being memoized per instance.
@@ -46,8 +47,8 @@ const CONTAINER_STYLE = {
 };
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(20),
+  itemPaddingOnSelection: scaleUxToDp(20),
   pressedItemScaleFactor: 1,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,

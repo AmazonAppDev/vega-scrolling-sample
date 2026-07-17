@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 export const CAROUSEL_STYLE = StyleSheet.create({
   container: {
@@ -14,36 +15,36 @@ export const CAROUSEL_STYLE = StyleSheet.create({
     resizeMode: 'cover',
   },
   itemHorizontalContainer: {
-    width: 125,
+    width: scaleUxToDp(250),
     height: '100%',
   },
   itemVerticalContainer: {
     width: '100%',
-    height: 210,
+    height: scaleUxToDp(420),
   },
   itemContainerType1: {
-    height: 210,
-    width: 100,
+    height: scaleUxToDp(420),
+    width: scaleUxToDp(200),
     justifyContent: 'center',
     alignContent: 'center',
   },
   itemContainerType2: {
-    height: 210,
-    width: 250,
+    height: scaleUxToDp(420),
+    width: scaleUxToDp(500),
     justifyContent: 'center',
     alignContent: 'center',
   },
   itemFocusContainer: {
-    borderWidth: 2,
+    borderWidth: scaleUxToDp(4),
     borderColor: 'white',
   },
   horizontalCarouselContainerStyle: {
     width: '100%',
-    height: 210,
+    height: scaleUxToDp(420),
   },
   verticalCarouselContainerStyle: {
     height: '100%',
-    width: 125,
+    width: scaleUxToDp(250),
     justifyContent: 'center',
   },
 });
