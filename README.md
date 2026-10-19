@@ -44,8 +44,8 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
 4. At the command prompt, in the **build** folder, verify that you generated the VPKG files for your device's architecture.
 
    * **armv7-release/keplerscrollingapp_armv7.vpkg**&mdash;generated on x86_64 and Mac-M series devices to run on the Vega Fire TV Stick.
-   * **x86_64-release/keplerscrollingapp_x86_64.vpkg**&mdash;generated on x86_64 device to run on the KVD.
-   * **aarch64-release/keplerscrollingapp_aarch64.vpkg**&mdash;generated on Mac M-series device to run on the KVD.
+   * **x86_64-release/keplerscrollingapp_x86_64.vpkg**&mdash;generated on x86_64 device to run on the Vega Virtual Device (VVD).
+   * **aarch64-release/keplerscrollingapp_aarch64.vpkg**&mdash;generated on Mac M-series device to run on the VVD.
    
 ### Step 2: Run the app
 
@@ -54,7 +54,7 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
 1. To start the Vega Virtual Device, at the command prompt, run the following command.
 
    ```
-   kepler virtual-device start
+   vega virtual-device start
    ```
 
 2. Go to the directory where you placed the VPKG files. 
@@ -64,13 +64,13 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
    - On Mac M-series based devices. 
       
       ```
-      kepler run-kepler build/aarch64-release/keplerscrollingapp_aarch64.vpkg
+      vega run-app build/aarch64-release/keplerscrollingapp_aarch64.vpkg com.amazondeveloper.keplerscrollingapp.main -d VirtualDevice
       ```
 
    - On x86_64 based devices.
       
      ```
-     kepler run-kepler build/x86_64-release/keplerscrollingapp_x86_64.vpkg
+     vega run-app build/x86_64-release/keplerscrollingapp_x86_64.vpkg com.amazondeveloper.keplerscrollingapp.main -d VirtualDevice
      ```  
 
 #### Fire TV Stick
@@ -80,7 +80,7 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
 2. To install and launch the app on your Fire TV Stick, run the following command.
 
    ```
-   kepler run-kepler build/armv7-release/keplerscrollingapp_armv7.vpkg
+   vega run-app build/armv7-release/keplerscrollingapp_armv7.vpkg com.amazondeveloper.keplerscrollingapp.main -d <DSN>
    ```
 Demo videos
 --------------
