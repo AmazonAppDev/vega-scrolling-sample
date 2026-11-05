@@ -13,6 +13,18 @@ Introduction
 
 
 
+Branches
+--------
+
+Each branch pins a React Native version. Pick the branch that matches the platform you are shipping to.
+
+| Branch | React Native | When to use it |
+|--------|--------------|----------------|
+| [`main`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/main) | 0.83 | Latest development. Start here for new work. |
+| [`release-rn-83`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/release-rn-83) | 0.83 | Release branch for React Native 0.83. Currently matches `main`. |
+| [`release-rn-0.72`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/release-rn-0.72) | 0.72 | Older React Native 0.72 projects that cannot move to 0.83 yet. Frozen at the last 0.72 commit. |
+
+
 Build and run the app
 --------------------
 
