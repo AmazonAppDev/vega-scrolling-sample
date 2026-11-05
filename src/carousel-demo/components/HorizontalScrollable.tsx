@@ -15,6 +15,7 @@ import {Ref, forwardRef, useImperativeHandle, useRef} from 'react';
 
 import {ItemType, ScrollableProps} from '../Types';
 import {CAROUSEL_STYLE} from './Style';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Module scope so ItemView is a stable component type; defining it inside the
 // parent would remount every item on each render.
@@ -48,8 +49,8 @@ const getSelectedItemOffset = (_info: CarouselRenderInfo): ShiftFactor => ({
 });
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(20),
+  itemPaddingOnSelection: scaleUxToDp(20),
   pressedItemScaleFactor: 0.9,
   selectedItemScaleFactor: FOCUSED_ITEM_SCALE_FACTOR,
   getSelectedItemOffset,

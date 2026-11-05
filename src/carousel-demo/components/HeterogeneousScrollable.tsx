@@ -13,6 +13,7 @@ import {useCallback, useMemo, useState} from 'react';
 import React from 'react';
 import {ItemType, ScrollableProps} from '../Types';
 import {CAROUSEL_STYLE} from './Style';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Defined at module scope so they are stable component types across renders.
 // These retain focus state because it drives the itemFocusContainer style.
@@ -81,8 +82,8 @@ const getSelectedItemOffset = (_info: CarouselRenderInfo): ShiftFactor => ({
 });
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 20,
-  itemPaddingOnSelection: 20,
+  itemPadding: scaleUxToDp(40),
+  itemPaddingOnSelection: scaleUxToDp(40),
   pressedItemScaleFactor: 0.9,
   selectedItemScaleFactor: SELECTED_ITEM_SCALE_FACTOR,
   getSelectedItemOffset,
@@ -97,11 +98,11 @@ const ANIMATION_DURATION: AnimationDurationProps = {
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'inset',
   borderColor: 'white',
-  borderWidth: 2,
-  borderRadius: 4,
-  borderStrokeRadius: 2,
+  borderWidth: scaleUxToDp(4),
+  borderRadius: scaleUxToDp(8),
+  borderStrokeRadius: scaleUxToDp(4),
   borderStrokeColor: 'black',
-  borderStrokeWidth: 1,
+  borderStrokeWidth: scaleUxToDp(2),
 };
 
 /**

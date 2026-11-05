@@ -13,6 +13,7 @@ import {useCallback, useMemo} from 'react';
 import React from 'react';
 import {ItemType, ScrollableProps} from '../Types';
 import {CAROUSEL_STYLE} from './Style';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Module scope so ItemView is a stable component type; defining it inside the
 // parent would remount every item on each render.
@@ -44,8 +45,8 @@ const getSelectedItemOffset = (
 ): ShiftFactor | undefined => undefined; // Use the default offset.
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 5,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(10),
+  itemPaddingOnSelection: scaleUxToDp(20),
   pressedItemScaleFactor: 0.8,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,
@@ -60,11 +61,11 @@ const ANIMATION_DURATION: AnimationDurationProps = {
 const SELECTION_BORDER: SelectionBorderProps = {
   borderStrategy: 'outset',
   borderColor: '#FFC107',
-  borderWidth: 3,
-  borderRadius: 5,
-  borderStrokeRadius: 3,
+  borderWidth: scaleUxToDp(5),
+  borderRadius: scaleUxToDp(10),
+  borderStrokeRadius: scaleUxToDp(5),
   borderStrokeColor: 'yellow',
-  borderStrokeWidth: 1,
+  borderStrokeWidth: scaleUxToDp(2),
 };
 
 /**
