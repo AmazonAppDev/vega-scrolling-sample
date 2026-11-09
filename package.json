@@ -23,14 +23,14 @@
   "dependencies": {
     "@amazon-devices/kepler-ui-components": "~3.1.0",
     "@amazon-devices/react-native-kepler": "~4.0.0",
-    "@amazon-devices/shopify__flash-list": "^2.0.0",
     "@amazon-devices/vega-carousel": "~1.0.0",
     "@babel/runtime": "^7.25.0",
     "@reduxjs/toolkit": "^2.5.0",
     "react": "19.2.0",
     "react-compiler-runtime": "^19.0.0-beta-714736e-20250131",
     "react-native": "0.83.0",
-    "react-redux": "^9.2.0"
+    "react-redux": "^9.2.0",
+    "recyclerlistview": "4.2.1"
   },
   "devDependencies": {
     "@amazon-devices/kepler-cli-platform": "~0.22.0",

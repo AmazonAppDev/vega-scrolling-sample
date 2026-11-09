@@ -15,62 +15,20 @@ const checkIfDataSame = (
   return dataSame;
 };
 
-export const HeroCard = memo(
-  ({
-    data,
-    scroll,
-    setRefForFocusedCard,
-    onFocus,
-  }: Omit<CardProps, 'cardType'>) => {
-    return (
-      <Card
-        cardType="HERO"
-        data={data}
-        scroll={scroll}
-        setRefForFocusedCard={setRefForFocusedCard}
-        onFocus={onFocus}
-      />
-    );
-  },
-  checkIfDataSame,
-);
+export const HeroCard = memo(({data, onFocus}: Omit<CardProps, 'cardType'>) => {
+  return <Card cardType="HERO" data={data} onFocus={onFocus} />;
+}, checkIfDataSame);
 
 export const VerticalCard = memo(
-  ({
-    data,
-    scroll,
-    setRefForFocusedCard,
-    onFocus,
-  }: Omit<CardProps, 'cardType'>) => {
-    return (
-      <Card
-        cardType="VERTICAL"
-        data={data}
-        scroll={scroll}
-        setRefForFocusedCard={setRefForFocusedCard}
-        onFocus={onFocus}
-      />
-    );
+  ({data, onFocus}: Omit<CardProps, 'cardType'>) => {
+    return <Card cardType="VERTICAL" data={data} onFocus={onFocus} />;
   },
   checkIfDataSame,
 );
 
 export const RegularCard = memo(
-  ({
-    data,
-    scroll,
-    setRefForFocusedCard,
-    onFocus,
-  }: Omit<CardProps, 'cardType'>) => {
-    return (
-      <Card
-        cardType="REGULAR"
-        data={data}
-        scroll={scroll}
-        setRefForFocusedCard={setRefForFocusedCard}
-        onFocus={onFocus}
-      />
-    );
+  ({data, onFocus}: Omit<CardProps, 'cardType'>) => {
+    return <Card cardType="REGULAR" data={data} onFocus={onFocus} />;
   },
   checkIfDataSame,
 );
@@ -78,12 +36,7 @@ export const RegularCard = memo(
 export const CARD_VARIATIONS: Record<
   CardType,
   React.MemoExoticComponent<
-    ({
-      data,
-      scroll,
-      setRefForFocusedCard,
-      onFocus,
-    }: Omit<CardProps, 'cardType'>) => React.JSX.Element
+    ({data, onFocus}: Omit<CardProps, 'cardType'>) => React.JSX.Element
   >
 > = {
   HERO: HeroCard,

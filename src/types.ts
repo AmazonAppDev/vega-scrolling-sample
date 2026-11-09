@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 
 export interface ListConfig<PropType> {
   component: React.ComponentType<PropType>;
@@ -39,11 +38,6 @@ export interface CardData extends ImageData {
 export interface CardProps {
   cardType: CardType;
   data: CardData;
-  scroll: {
-    vertically?: (rowIndex: number) => void;
-    horizontally?: (index: number) => void;
-  };
-  setRefForFocusedCard?: (element: View) => void;
   onFocus?: (cardData: CardData) => void;
 }
 
@@ -70,10 +64,6 @@ export interface CardTitleProps {
 }
 export interface CardRowProps {
   rowIndex: number;
-  scrollVertically?: (rowIndex: number) => void;
-  setRefForFocusedCard?: (element: View) => void;
 }
 
 export type CardType = 'HERO' | 'VERTICAL' | 'REGULAR';
-
-export type ListType = 'FlashList' | 'Carousel';

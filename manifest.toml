@@ -12,8 +12,8 @@ id = "com.amazondeveloper.keplerscrollingapp"
 icon = "@image/default_app_icon.png"
 
 [os.version]
-min = "1.2"
-target = "1.2"
+min = "2.0"
+target = "2.0"
 
 [components]
 [[components.interactive]]
@@ -23,8 +23,5 @@ launch-type = "singleton"
 categories = ["com.amazon.category.main"]
 
 [needs]
-[[needs.module]]
-id = "/com.amazon.vega.os@IVega_1_2"
-
 [[needs.module]]
 id = "/com.amazon.kepler.runtime.react_native_kepler_4@IReactNativeKepler_0"

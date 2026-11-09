@@ -9,7 +9,7 @@ The Vega Scrolling Sample App demonstrates how to build a home page grid layout 
 Introduction
 ------------
 
- The Vega Scrolling Sample App is optimized using the best practices for each component such as memoizing and avoiding state updates. The app is also configurable, allowing you to easily modify the elements while maintaining the optimizations. You can choose between two list components from Vega: `FlashList` and `Carousel`. These components were selected because they are the most performant lists. To learn more about list components, see the [List components](#lists-components) section and [Demo videos](#demo-videos).
+ The Vega Scrolling Sample App is optimized using the best practices for each component such as memoizing and avoiding state updates. The app is also configurable, allowing you to easily modify the elements while maintaining the optimizations. The grid is built with the Vega `Carousel` component (`@amazon-devices/vega-carousel`), which recycles list items. To learn more about list components, see the [List components](#lists-components) section and [Demo videos](#demo-videos).
 
 
 
@@ -30,9 +30,9 @@ Build and run the app
 
 ### Prerequisites
 
-Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/0.21/install-vega-sdk.html).
+Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/2.0/install-vega-sdk.html).
 
-This branch targets Vega OS 1.2: the `[os.version]` section of `manifest.toml` sets `min` and `target` to `1.2`. For Vega OS 2.0, use the `main` branch.
+This app targets Vega OS 2.0 (`min` and `target` in the `[os.version]` section of `manifest.toml`), so it needs Vega SDK 2.0. See [Target OS versions](https://developer.amazon.com/docs/vega/2.0/target-os-version.html).
 
 
 ### Step 1: Build the app
@@ -107,17 +107,10 @@ Demo videos
 https://github.com/user-attachments/assets/049caff7-aa1f-4377-b0b6-e8def528674e
 
 
-### FlashList demo
-
-<video src="docs/images/FlashlistDemo.mp4" controls preload></video>
-
-https://github.com/user-attachments/assets/f0ec2826-8811-419c-9124-565578e580b3
-
-
 Configure the App
 -----------------
 
-The **config.ts** file allows you to customize the visual appearance and behavior of the Scrolling App. These configuration values are also used in the optimization features of the `FlashList` and `Carousel` components. When you make configuration changes, the lists are optimized for the new layout. It is recommended that you first make changes in the **config.ts** file before making changes in other files.
+The **config.ts** file allows you to customize the visual appearance and behavior of the Scrolling App. These configuration values are also used to lay out the `Carousel` rows. When you make configuration changes, the lists are optimized for the new layout. It is recommended that you first make changes in the **config.ts** file before making changes in other files.
 
 ### Card configuration (CARD_CONFIG)
 
@@ -150,16 +143,6 @@ Controls the layout of card rows. For each card type, you can set the following:
 - `HEIGHT`: Total row height (automatically calculated).
 - `WIDTH`: Total width of row item (automatically calculated).
 
-### Toggle list type
-
-This app showcases two types of lists:`FlashList` and `Carousel`. Lists can be switched by setting the `currentList` variable. `FlashList` is the "default" list for the Scrolling app and used out-of-the-box. And most references in the documentation refer to the `FlashList` implementation. Some typescript errors might occur when using `Carousel`, but those errors can be ignored.
-
-```tsx
-export const currentList: ListType = Carousel // By default set to 'FlashList';
-```
-
-For more information, see [List components](#lists-components).
-
 
 Grid layout
 -----------
@@ -169,7 +152,7 @@ The Scrolling app implements a grid layout populated with rounded [`Card`](#card
 
 ### Nested list structure
 
-The grid is implemented using nested list components. Each row has [`Card`](#card-component) components stored in a horizontally scrollable list (`CardRow`). Then these horizontal lists are arranged in a vertical list to enable vertical scrolling (`Grid`). The [**FlashlistGrid.tsx**](src/components/Flashlist/FlashlistGrid/FlashlistGrid.tsx) file includes the implementation of the vertical list.
+The grid is implemented using nested list components. Each row has [`Card`](#card-component) components stored in a horizontally scrollable list (`CardRow`). Then these horizontal lists are arranged in a vertical list to enable vertical scrolling (`Grid`). The [**CarouselGrid.tsx**](src/components/Carousel/CarouselGrid.tsx) file includes the implementation of the vertical list.
 
 * **Horizontal list** (`CardRow`)
 
@@ -187,7 +170,7 @@ The grid is implemented using nested list components. Each row has [`Card`](#car
 
 #### Challenges
 
-The rows of the grid have different sized cards. This creates a non-uniform, or heterogenous list structure for the vertical list. The `FlashList` and `Carousel` components rely on predictable and uniform item sizes to optimize performance. Uniform item sizes allows these lists to pre-calculate the position and layout of items. However, with heterogeneous items, each row potentially presents a different height and layout. This forces the rendering engine to perform complex, computationally expensive calculations for every scroll and item placement.
+The rows of the grid have different sized cards. This creates a non-uniform, or heterogenous list structure for the vertical list. The `Carousel` component relies on predictable and uniform item sizes to optimize performance. Uniform item sizes allows these lists to pre-calculate the position and layout of items. However, with heterogeneous items, each row potentially presents a different height and layout. This forces the rendering engine to perform complex, computationally expensive calculations for every scroll and item placement.
 
 
 <img src="docs/images/HeterogenousRows.png"/>
@@ -195,7 +178,7 @@ The rows of the grid have different sized cards. This creates a non-uniform, or 
 
 #### Solution
 
-To mitigate the challenge, you can instruct the lists about the different item and their dimensions. If the vertical list knows all the possible types of rows and their dimensions, then it is able to perform those pre-calculations. Also, the lists create separate recycling pools for each item type to avoid additional layout calculations. This solution can be implemented by using the `getItemType` and `overrideItemLayout` props for `FlashList` and the `itemDimensions` and `getItemForIndex` for `Carousel`. These props allow us to explicitly define the different types of rows and the dimensions for each one. For `Carousel`, each row must have a different component. The Scrolling app includes the base implementation of the [`CardRow`](src/components/Carousel/CarouselCardRow/CarouselCardRow.tsx), and then created variations of that component for the different card types [`CardRowVariations`](src/components/CardRowVariations/CardRowVariations.tsx).
+To mitigate the challenge, you can instruct the lists about the different item and their dimensions. If the vertical list knows all the possible types of rows and their dimensions, then it is able to perform those pre-calculations. Also, the lists create separate recycling pools for each item type to avoid additional layout calculations. With `Carousel`, each row type is its own component, and each row sets its height from the precomputed `ROW_CONFIG`. The Scrolling app includes the base implementation of the [`CardRow`](src/components/Carousel/CarouselCardRow.tsx), and then created variations of that component for the different card types [`CardRowVariations`](src/components/CardRowVariations.tsx).
 
 
  **Note**: Even with this solution, lists with uniform items perform better than heterogenous lists. Among other reasons, maintaining different recycling pools of the different item types consume more memory.
@@ -215,7 +198,7 @@ The `Card` component is comprised of very few elements. `Card` is an image with 
 
 ### Eliminating state updates
 
-State updates causes re-renders. Because there are many `Card` components on-screen, any re-render is costly. State updates do not work well with `FlashList` and `Carousel`. See the [Flashlist recommendations for state updates](https://shopify.github.io/flash-list/docs/recycling/).
+State updates causes re-renders. Because there are many `Card` components on-screen, any re-render is costly. State updates do not work well with recycling lists such as `Carousel`.
 
 ### Appropriate image resolutions
 
@@ -266,88 +249,18 @@ Lists are a vital part of TV apps. Lists are used to display an content catalogu
 
 * `ScrollView`
 * `FlatList`
-* `FlashList`
 * `Carousel`
 
-The Scrolling app demonstrates `FlashList` and `Carousel` components. These were selected because they are the most performant lists. Their strength comes from recycling list items. By default, the Scrolling app uses `FlashList` to create its layout. `Carousel` can be toggled in the configuration (for more information, see [Toggle list type](#toggle-list-type)). The Scrolling app uses nested lists with a horizontal list for each row (`CardRow`) and a vertical list (`Grid`) to create a grid.
+The Scrolling app uses `Carousel`, whose strength comes from recycling list items. It uses nested lists with a horizontal list for each row (`CardRow`) and a vertical list (`Grid`) to create a grid.
 
 ### Key Performance Indicators (KPI) for list components
 
-Performance test scripts can be found in the `test/performance` folder. The `generalTest.py` script tests the entire app layout. This is the test that was used to obtain the performance numbers in the following table for the `FlashList` and `Carousel` components. To run and set up performance testing, see [Measure Your App KPIs](https://developer.amazon.com/docs/vega/0.21/measure-app-kpis.html).
+Performance test scripts can be found in the `test/performance` folder. The `generalTest.py` script tests the entire app layout. This is the test that was used to obtain the performance numbers in the following table for the `Carousel` component. To run and set up performance testing, see [Measure Your App KPIs](https://developer.amazon.com/docs/vega/0.21/measure-app-kpis.html).
 
 | List component | PO | P50 | P90 | P95 | P99 | P100 | stdev | variance |
 | -------------- | -- | --- | --- | --- | --- | ---- | ----- | -------- |
-| `FlashList`    | 99.7 | 99.45 | 97.98 | 97.68 | 97.68 | 97.68 | 0.74 | 0.55 |
 | `Carousel`     | 99.8 | 99.38 | 98.88 | 98.63 | 98.63 | 98.63 | 0.3 | 0.09 |
 
-
-### Separated components
-
-Separate `Grid` and `CardRow` components were created for each list type and are stored in the **../src/components/FlashList** and **../src/components/Carousel** directories. Where possible, common code is shared in **src/utils/listUtils.tsx**. Most references in the documentation refer to the `FlashList` implementation of the components.
-
-### FlashList
-
-`FlashList` is a third party library built for React Native and adapted for the Vega platform. `FlashList` is a cross-platform scrolling component that uses recycling behavior to be more performant.
-
-**The performance of `FlashList` depends on precise data being passed in through its props.** This is especially true in a nested list layout like in the Scrolling app. Whenever possible, values should be pre-calculated outside of the components. In the Scrolling app the `CARD_CONFIG` and `ROW_CONFIG`is used to store these calculated values (see `config.ts` in the [Configure the app](#configure-the-app) section). This avoids calculations during component renders.
-
-#### Props used to optimize `FlashList` performance
-
-The following includes the props leveraged in this app to optimize `FlashList` performance. See Shopify's [Flashlist](https://shopify.github.io/flash-list/docs/usage) documentation for more info.
-
-##### estimatedItemSize
-
-The `estimatedItemSize` prop is the size of the items in the list.
-
-###### Horizontal list
-
-The `estimatedItemSize` prop is the width of the `Card` and any margin or other spacing. `marginRight` is used in the `Card` components to add gaps between them.
-
-###### Vertical list
-
-The `estimatedItemSize` prop is more complicated for the vertical list because each row has a different height. (To learn more, see the [Heterogenous list](#heterogenous-list) section.) Instead of using this prop, vertical list leverages the [`overrideItemLayout`](#overrideitemlayout) prop to explicitly specify the size of each row. Because `estimatedItemSize` is a required prop, a placeholder value is used for it. This placeholder value is the average height of the rows. `overrideItemLayout` overrides the value of `estimatedItemSize` so the placeholder is never used.
-
-##### overrideItemLayout
-
-The `overrideItemLayout` prop is used to explicitly define the size of every row, is necessary for the vertical list, and overrides `estimatedItemSize`. Pre-calculated heights from `ROW_CONFIG` are used.
-
-```tsx
-const overrideItemLayout = useCallback(
-  (
-    layout: {
-      span?: number;
-      size?: number;
-    },
-    item: RowData,
-  ) => {
-    layout.size = ROW_CONFIG[item.cardType].HEIGHT;
-  },
-  [],
-);
-```
-
-##### getItemType
-
-The `getItemType` prop helps `FlashList` identify the different rows in the vertical list. `FlashList` uses this to create separate pools for recycling. For example, this prevents rows with `HERO` cards from being recycled using rows of `VERTICAL` cards.
-
-```tsx
-const getItemType = useCallback((item: RowData) => {
-  return item.cardType;
-}, []);
-```
-
-##### drawDistance
-
-The `drawDistance` prop is used in the vertical list to increase the number of items that `FlashList` renders. Vertical recycling is slower than horizontal recycling. So when scrolling vertically, users are more likely see blank areas or see rows visibly being recycled. Specifying `drawDistance` helps provide a smoother user experience. However, this comes at a performance cost, so evaluate the value of this in your own app.
-
-##### keyExtractor
-
-The `keyExtractor` prop is used to create a unique ID for each list item. This is especially important to help the app properly distinguish between items when focusing.
-
-
-##### ItemSeparatorComponent
-
-It is recommended to not use the `ItemSeparatorComponent` prop. Implementing a gap using `margin` is slightly more performant.
 
 ### Carousel
 
@@ -371,7 +284,7 @@ For full API documentation, see the [vega-carousel README](https://www.npmjs.com
 
 #### Data adapter pattern
 
-Unlike `FlashList` which takes a `data` array, `Carousel` uses a data adapter for lazy item resolution:
+`Carousel` uses a data adapter for lazy item resolution:
 
 ```tsx
 const dataAdapter = {
@@ -407,148 +320,6 @@ Focus will freely move between all the elements in the current viewable window. 
 Focus is fixed, or trapped to one position on the screen. Common positions are at the start, middle, or end of a list. When focus changes, the window scrolls to move the newly focused element to the same position.
 
 <img src="docs/images/FixedCenterScrolling.gif"/>
-
-### FlashList
-
-#### Fixed scrolling
-
-To implement fixed scrolling, the default scrolling in `FlashList` is disabled, and `scrollToIndex()` is programmatically called to manually scroll the list to the appropriate positions. Because the Scrolling app uses a nested list, horizontal and vertical scrolling must be triggered. You must create functions for scrolling horizontally and vertically, and then pass the functions into the `Card` component.
-
-1. Disable scrolling.
-
-   ```tsx
-   export const FlashlistGrid = () => {
-       ...
-       return (
-           <FlashList
-           ref={verticalRef}
-           scrollEnabled={false} // disables the natural scrolling
-           ...
-           />
-       );
-   }
-   ```
-
-2. Set up a ref for `FlashList`.
-
-   ```tsx
-   export const FlashlistGrid = () => {
-      const verticalRef = useRef<FlashList<RowData>>(null);
-      ...
-      return (
-         <FlashList
-         ref={verticalRef}
-         ...
-         />
-      );
-   }
-   ```
-
-3. Create the scroll function.
-
-   You use the ref to the `FlashList` to invoke the `scrollToIndex()` function. This function has two important parameters:
-
-   * `index`: Determines which card is scrolled to.
-   * `viewPosition`: Determines the fixed position of the focused element. The value is between `0` to `1.0` that represents a fraction of the viewable window. The following are some common values:
-     * `0`: Focus is fixed to the start of the viewable window.
-     * `0.5`: Focus is fixed to the middle of the viewable window.
-     * `1.0`: Focus is fixed to the end of the viewable window.
-
-   ```tsx
-   export const FlashlistGrid = () => {
-      const verticalRef = useRef<FlashList<RowData>>(null);
-      const scrollVertically = (rowIndex: number) => {
-         if (verticalRef.current) {
-         verticalRef?.current?.scrollToIndex({
-               animated: true,
-               index: rowIndex,
-               viewPosition: 0.5,
-         });
-         }
-      };
-      ...
-   }
-   ```
-
-4. Pass the scroll function to child element.
-
-   You need to trigger scroll when the focus is on the card. You must pass the `scrollVertically()` function to the `Card` component. Next, you create a `scrollHorizontally()` function in `CardRow` and pass it to `Card`.
-
-   ```tsx
-   export const FlashlistGrid = () => {
-      const renderRow =  ({item}: {item: RowData; index: number}) => {
-         const CardRow = CARD_ROW_VARIATIONS[item.cardType];
-         // passing scroll function to CardRow which will eventually pass to Card
-         return <CardRow rowData={item} scrollVertically={scrollVertically} />;
-      }
-      ...
-   }
-   ```
-
-5. Trigger scroll when the focus is on the card. Next, in the card you trigger the scroll animation during focus.
-
-   ```tsx
-   export const Card = ({cardType, data, scroll}: CardProps) => {
-
-   const focusHandler = () => {
-      ...
-      // scrolling both horizontally and vertically
-      if (currentList === 'FlashList') {
-         scroll.vertically?.(data.rowIndex);
-         scroll.horizontally?.(data.index);
-      }
-   };
-   return (
-      <Pressable
-         ref={isFirstCard ? firstCardRef : undefined}
-         onFocus={focusHandler}
-         ...
-         >
-      </Pressable>
-   )
-   };
-
-   ```
-
-#### Natural scrolling
-
-Natural Scrolling is the default scrolling behavior in `FlashList`, `FlatList`, and `Scrollview`. 
-
-
-**To enable scrolling and comment out the scrolling functions in Card**
-
-```tsx
-export const FlashlistGrid = () => {
-    ...
-    return (
-        <FlashList
-        scrollEnabled={true}
-        ...
-        />
-    );
-}
-
-
-export const FlashlistCardRow = () => {
-    ...
-    return (
-        <FlashList
-        scrollEnabled={true}
-        ...
-        />
-    );
-}
-
-export const Card = ({cardType, data, scroll}: CardProps) => {
-  const focusHandler = () => {
-    //   scroll.vertically?.(data.rowIndex);
-    //   scroll.horizontally?.(data.index);
-
-  };
-  ...
-};
-
-```
 
 ### Carousel
 
@@ -719,7 +490,7 @@ API Pagination is enabled by default in `featureConfig.ts`
 
 ### Overview
 
-The pagination system integrates seamlessly with both `FlashList` and `Carousel` components, providing smooth user experiences while maintaining optimal performance. The system uses a threshold-based trigger mechanism that anticipates user needs by fetching new content before users reach the end of currently loaded items.
+The pagination system integrates with the `Carousel` rows, providing smooth user experiences while maintaining optimal performance. The system uses a threshold-based trigger mechanism that anticipates user needs by fetching new content before users reach the end of currently loaded items.
 
 #### Key benefits
 
@@ -971,7 +742,7 @@ The system automatically clears error states when successful requests are made, 
 Pagination helps manage memory by the following:
 
 - Loading only visible and near-visible content.
-- Working with FlashList's recycling mechanism.
+- Working with Carousel's item recycling.
 - Preventing memory bloat from loading entire catalogs.
 
 #### Network optimization
@@ -982,12 +753,12 @@ The system optimizes network usage through the following:
 - Request deduplication to prevent unnecessary calls.
 - Configurable batch sizes to balance performance and user experience.
 
-#### FlashList integration
+#### Carousel integration
 
-Pagination works seamlessly with FlashList's recycling.
+Pagination works with Carousel's recycling.
 
-- New cards are added to existing data arrays.
-- FlashList automatically handles rendering updates.
+- New cards are appended to the row's data.
+- The row's data adapter reports the new item count, and Carousel renders the new items.
 - Recycling continues to work with dynamically loaded content.
 
 ### Debugging and troubleshooting

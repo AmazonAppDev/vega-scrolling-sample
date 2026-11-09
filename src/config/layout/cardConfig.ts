@@ -15,6 +15,7 @@ type CardConfig = Record<
       WIDTH: number;
       BORDER_RADIUS: number;
       RESOLUTION: keyof typeof ImageResolutions;
+      // marginRight per card; 0 because vega-carousel's itemPadding spaces items.
       GAP: number;
     };
     ROW_GAP: number;
