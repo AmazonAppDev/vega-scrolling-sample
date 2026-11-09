@@ -45,7 +45,8 @@ export interface PaginationState {
   isLoading: boolean;
   hasMore: boolean;
   error: string | null;
-  lastRequestedPage: number;
+  // Row length (fetch offset) of the last page request; -1 before any.
+  lastRequestedOffset: number;
 }
 
 export interface RowData {

@@ -58,6 +58,7 @@ export const CarouselCardRow = memo(({rowIndex}: CardRowProps) => {
   const dispatch = useDispatch();
   const paginationBatchSize = ROW_CONFIG[row.cardType].API_PAGE_SIZE;
 
+  // See the README's API Pagination section for how onFocusUpdate pages a row.
   const onFocusUpdate = useCallback(
     (cardData: CardData) => {
       if (FEATURES_CONFIG.API_PAGINATION) {

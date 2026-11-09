@@ -109,9 +109,13 @@ const SELECTION_BORDER: SelectionBorderProps = {
  * HeterogeneousItemViewScrollable showcases the Carousel's ability to have
  * different UI Item on a single scrollable row.
  * @param data - Data source
+ * @param selectionStrategy - Carousel selection strategy (default 'anchored')
  * @returns HeterogeneousItemViewScrollable
  */
-export const HeterogeneousItemViewScrollable = ({data}: ScrollableProps) => {
+export const HeterogeneousItemViewScrollable = ({
+  data,
+  selectionStrategy = 'anchored',
+}: ScrollableProps) => {
   const getItem = useCallback(
     (index: number) =>
       index >= 0 && index < data.length ? data[index] : undefined,
@@ -148,7 +152,7 @@ export const HeterogeneousItemViewScrollable = ({data}: ScrollableProps) => {
         containerStyle={CAROUSEL_STYLE.horizontalCarouselContainerStyle}
         itemStyle={ITEM_STYLE}
         animationDuration={ANIMATION_DURATION}
-        selectionStrategy="anchored"
+        selectionStrategy={selectionStrategy}
         pinnedSelectedItemOffset="start"
         onSelectionChanged={onSelectionChanged}
         selectionBorder={SELECTION_BORDER}

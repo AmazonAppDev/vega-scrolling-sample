@@ -9,20 +9,20 @@ The Vega Scrolling Sample App demonstrates how to build a home page grid layout 
 Introduction
 ------------
 
- The Vega Scrolling Sample App is optimized using the best practices for each component such as memoizing and avoiding state updates. The app is also configurable, allowing you to easily modify the elements while maintaining the optimizations. The grid is built with the Vega `Carousel` component (`@amazon-devices/vega-carousel`), which recycles list items. To learn more about list components, see the [List components](#lists-components) section and [Demo videos](#demo-videos).
+ The Vega Scrolling Sample App is optimized using the best practices for each component such as memoizing and avoiding state updates. The app is also configurable, allowing you to easily modify the elements while maintaining the optimizations. The grid is built with the Vega `Carousel` component (`@amazon-devices/vega-carousel`), which recycles list items and scrolls on native threads. To learn more about list components, see the [List components](#lists-components) section and [Demo videos](#demo-videos).
 
 
 
 Branches
 --------
 
-Each branch pins a React Native version. Pick the branch that matches the platform you are shipping to.
+> **Heads up:** `main` targets **Vega OS 2.0** and needs Vega SDK 2.0. `release-rn-83` targets **Vega OS 1.2**. Each branch sets its OS in the `[os.version]` section of `manifest.toml`; check the branch you're on before you build.
 
-| Branch | React Native | When to use it |
-|--------|--------------|----------------|
-| [`main`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/main) | 0.83 | Latest development. Start here for new work. |
-| [`release-rn-83`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/release-rn-83) | 0.83 | Release branch for React Native 0.83. Currently matches `main`. |
-| [`release-rn-0.72`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/release-rn-0.72) | 0.72 | Older React Native 0.72 projects that cannot move to 0.83 yet. Frozen at the last 0.72 commit. |
+| Branch | React Native | Vega OS | Use when |
+|--------|--------------|---------|----------|
+| [`main`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/main) | 0.83 | 2.0 (`min` and `target` in manifest) | You're building for Vega OS 2.0 (the default) |
+| [`release-rn-83`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/release-rn-83) | 0.83 | 1.2 (`min` and `target` in manifest) | You need React Native 0.83 on Vega OS 1.2 devices |
+| [`release-rn-0.72`](https://github.com/AmazonAppDev/vega-scrolling-sample/tree/release-rn-0.72) | 0.72 | Not set in manifest | You need the older React Native 0.72 setup; build it with the older Vega SDK it was written for |
 
 
 Build and run the app
@@ -30,16 +30,18 @@ Build and run the app
 
 ### Prerequisites
 
-Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/2.0/install-vega-sdk.html).
+Before you launch the sample app, make sure that you have [installed the Vega SDK](https://developer.amazon.com/docs/vega/2.0/install-vega-sdk).
 
-This app targets Vega OS 2.0 (`min` and `target` in the `[os.version]` section of `manifest.toml`), so it needs Vega SDK 2.0. See [Target OS versions](https://developer.amazon.com/docs/vega/2.0/target-os-version.html).
+> **Check the branch first.** `main` needs Vega SDK 2.0. Install a 2.0.x SDK and set it as the default with `vega sdk use <version>` ([Vega 2.0 Get Started guide](https://developer.amazon.com/docs/vega/2.0/vega-get-started)). Other branches target an older OS. See [Branches](#branches), and confirm with `[os.version]` in `manifest.toml`.
+
+On `main`, the `[os.version]` section of `manifest.toml` sets both `min` and `target` to `2.0`, as recommended for SDK 2.0. The build fails if that section is missing. See [Target OS versions](https://developer.amazon.com/docs/vega/2.0/target-os-version).
 
 
 ### Step 1: Build the app
 
 After you download the source code from GitHub, you can build the Vega Scrolling Sample App from the command line to generate VPKG files. The VPKG files run on the Vega Virtual Device and Vega Fire TV Stick.
 
-You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup-extension.html) with Visual Studio Code to build the app.
+You can also use [Vega Studio](https://developer.amazon.com/docs/vega/latest/setup-extension.html) with Visual Studio Code to build the app.
 
 1. At the command prompt, navigate to the Vega Scrolling Sample App source code directory. 
 
@@ -68,7 +70,7 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
 1. To start the Vega Virtual Device, at the command prompt, run the following command.
 
    ```
-   kepler virtual-device start
+   vega virtual-device start
    ```
 
 2. Go to the directory where you placed the VPKG files. 
@@ -78,13 +80,13 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
    - On Mac M-series based devices. 
       
       ```
-      kepler run-kepler build/aarch64-release/keplerscrollingapp_aarch64.vpkg
+      vega run-app build/aarch64-release/keplerscrollingapp_aarch64.vpkg
       ```
 
    - On x86_64 based devices.
       
      ```
-     kepler run-kepler build/x86_64-release/keplerscrollingapp_x86_64.vpkg
+     vega run-app build/x86_64-release/keplerscrollingapp_x86_64.vpkg
      ```  
 
 #### Fire TV Stick
@@ -94,7 +96,7 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/0.21/setup
 2. To install and launch the app on your Fire TV Stick, run the following command.
 
    ```
-   kepler run-kepler build/armv7-release/keplerscrollingapp_armv7.vpkg
+   vega run-app build/armv7-release/keplerscrollingapp_armv7.vpkg
    ```
 Demo videos
 --------------
@@ -110,7 +112,7 @@ https://github.com/user-attachments/assets/049caff7-aa1f-4377-b0b6-e8def528674e
 Configure the App
 -----------------
 
-The **config.ts** file allows you to customize the visual appearance and behavior of the Scrolling App. These configuration values are also used to lay out the `Carousel` rows. When you make configuration changes, the lists are optimized for the new layout. It is recommended that you first make changes in the **config.ts** file before making changes in other files.
+The files in the **src/config/** folder allow you to customize the visual appearance and behavior of the Scrolling App. These configuration values are also used to lay out the `Carousel` rows. When you make configuration changes, the lists are optimized for the new layout. It is recommended that you first make changes in **src/config/** before making changes in other files.
 
 ### Card configuration (CARD_CONFIG)
 
@@ -142,7 +144,6 @@ Controls the layout of card rows. For each card type, you can set the following:
 - `ITEM_COUNT`: Number of items to display.
 - `HEIGHT`: Total row height (automatically calculated).
 - `WIDTH`: Total width of row item (automatically calculated).
-
 
 Grid layout
 -----------
@@ -255,7 +256,7 @@ The Scrolling app uses `Carousel`, whose strength comes from recycling list item
 
 ### Key Performance Indicators (KPI) for list components
 
-Performance test scripts can be found in the `test/performance` folder. The `generalTest.py` script tests the entire app layout. This is the test that was used to obtain the performance numbers in the following table for the `Carousel` component. To run and set up performance testing, see [Measure Your App KPIs](https://developer.amazon.com/docs/vega/0.21/measure-app-kpis.html).
+Performance test scripts can be found in the `test/performance` folder. The `generalTest.py` script tests the entire app layout. This is the test that was used to obtain the performance numbers in the following table for the `Carousel` component. To run and set up performance testing, see [Measure Your App KPIs](https://developer.amazon.com/docs/vega/latest/measure-app-kpis.html).
 
 | List component | PO | P50 | P90 | P95 | P99 | P100 | stdev | variance |
 | -------------- | -- | --- | --- | --- | --- | ---- | ----- | -------- |
@@ -264,7 +265,7 @@ Performance test scripts can be found in the `test/performance` folder. The `gen
 
 ### Carousel
 
-`Carousel` is provided by [`@amazon-devices/vega-carousel`](https://www.npmjs.com/package/@amazon-devices/vega-carousel). **Version >= 1.0 is required for RN 0.83 compatibility.** The V1 carousel (`@amazon-devices/kepler-ui-components`) does not support RN 0.83.
+`Carousel` is provided by [`@amazon-devices/vega-carousel`](https://www.npmjs.com/package/@amazon-devices/vega-carousel). **Version >= 1.0 is required for RN 0.83 compatibility.** The V1 carousel from `@amazon-devices/kepler-ui-components` 2.x does not support RN 0.83.
 
 Carousel is built natively for Vega, performing scrolling operations on native threads for best-in-class performance. Because it is a native Vega component, it does not work in cross-platform React Native apps.
 
@@ -359,7 +360,7 @@ Set `selectionStrategy` to `'natural'` — focus moves freely between visible it
 
 ## Focus effects
 
-In television application design, the focus state is crucial for user navigation. The Scrolling app implements a focus effect through a bright border, or "focus ring", within the `Card` component. The distinctive visual indicator helps users track their current selection across the grid interface, transforming a static display into an interactive experience by providing clear and animated feedback about the active item.
+In television application design, the focus state is crucial for user navigation. The Scrolling app shows focus through a bright border, or "focus ring", drawn natively by `Carousel` from each row's `selectionBorder` prop. The animation approach below is general guidance for custom focus effects. The distinctive visual indicator helps users track their current selection across the grid interface, transforming a static display into an interactive experience by providing clear and animated feedback about the active item.
 
 <img src="docs/images/FocusEffect.gif"/>
 
@@ -380,7 +381,7 @@ Another advantage of this approach is that it requires no state updates and grea
 
 #### Implementation
 
-Because `borderWidth` can't be animated using the native driver, `opacity` is used. An `Animated.View` is placed behind the image in `Card`. The `Animated.View` is initially invisible (`opacity = 0`). But, on focus, the animation triggers to make it visible (`opacity = 1.0`).
+Because `borderWidth` can't be animated using the native driver, `opacity` is used. In a custom card, you can place an `Animated.View` behind the image. The `Animated.View` is initially invisible (`opacity = 0`). But, on focus, the animation triggers to make it visible (`opacity = 1.0`).
 
 ```tsx
 const animationValue = useAnimatedValue(0);
@@ -410,7 +411,7 @@ const focusHandler = useCallback(() => {
 
 ### Using InteractionManager
 
-`InteractionManager` allows you to schedule animations. By using the `InteractionManager.runAfterInteractions()` command, you can delay an animations until all other animations and interactions are completed. This reduces the chance of overloading the JS thread and helps to improve overall responsiveness and fluidity of the Scrolling app. **However, this might not be appropriate for every app**. `runAfterInteractions()` postpones after all animations, including scroll animations. The focus effect might look like it's "lagging" because it is not triggered until after the scroll animation.
+`InteractionManager` allows you to schedule animations. By using the `InteractionManager.runAfterInteractions()` command, you can delay an animations until all other animations and interactions are completed. This reduces the chance of overloading the JS thread and can improve overall responsiveness and fluidity. **However, this might not be appropriate for every app**. `runAfterInteractions()` postpones after all animations, including scroll animations. The focus effect might look like it's "lagging" because it is not triggered until after the scroll animation.
 
 ```tsx
 const focusAnimation = useCallback(() => {
@@ -428,33 +429,7 @@ const focusHandler = useCallback(() => {
 
 ### Focusing on the first card
 
-Typically TV apps start with focus on one of the items. This serves as the starting point for navigation and the user experience. In the scrolling app, the focus is automatically on the first `Card` and the first `CardRow`. This is done through the `FocusManager` API.
-
-#### FocusManager
-
-`FocusManager` uses a `ref` on an element to focus on it. You must get the `ref` specifically of the first `Card`. Because `Card`(../src/components/Card.tsx) is re-used throughout the grid, you use a boolean check to identify the first card, and then the `ref` can be conditionally applied. `FocusManager.focus()` is called in a `usEffect` to ensure that the first child is focused as soon as it is rendered.
-
-```tsx
-const firstCardRef = useRef<View>(null);
-const isFirstCard = data.index === 0 && data.rowIndex === 0;
-
-useEffect(() => {
-  if (isFirstCard) {
-    FocusManager.focus(findNodeHandle(firstCardRef?.current));
-  }
-}, [isFirstCard]);
-...
-
-return (
-  <Pressable
-    ref={isFirstCard ? firstCardRef : undefined}
-    ...
-)
-```
-
-#### Avoid using hasTVPreferredFocus
-
-`hasTVPreferredFocus` is another method to automatically draw focus onto components. Some edge cases exist where this might not perform well. For example, in a multi-page app, focus is reset between the different pages. `hasTVPreferredFocus` might not recognize the page change and focus may linger on the previous page. `FocusManager` provides a more reliable and intentional method to focus items.
+At launch, focus is on the sidebar tab list. The grid does not take focus on its own (`hasPreferredFocus={false}` on its carousels), so pressing right moves focus into the first row. The carousel demo tabs set `hasPreferredFocus` on their carousel instead.
 
 ### Avoid conditional styles
 
@@ -486,7 +461,7 @@ API Pagination
 
 API pagination is a performance optimization feature that loads content on-demand as users navigate through the app. Instead of loading all cards at once, the app initially loads a small subset and fetches additional cards when users approach the end of a row. This approach significantly improves app startup time and memory usage, especially important for TV apps with large content catalogs.
 
-API Pagination is enabled by default in `featureConfig.ts`
+API Pagination is controlled by `FEATURES_CONFIG.API_PAGINATION` in `src/config/featuresConfig.ts`; it is off by default.
 
 ### Overview
 
@@ -514,7 +489,7 @@ interface PaginationState {
   isLoading: boolean;        // Current loading status
   hasMore: boolean;          // Whether more content is available
   error: string | null;      // Error message if request fails
-  lastRequestedIndex: number; // Prevents duplicate requests
+  lastRequestedOffset: number; // Row length of the last request; prevents duplicates
 }
 ```
 
@@ -524,7 +499,8 @@ The system uses several Redux actions to manage pagination state.
 
 - `setPaginationLoading`: Updates loading status for a specific row.
 - `setPaginationError`: Handles error states and messages.
-- `setLastRequestedIndex`: Tracks the last requested card index to prevent duplicates.
+- `setLastRequestedOffset`: Records the row length a request was made from, to prevent duplicates.
+- `setPaginationHasMore`: Marks a row as exhausted after an empty or short page.
 - `addRowData`: Adds newly fetched cards to the row data.
 
 #### Thunk actions
@@ -552,7 +528,7 @@ Pagination is controlled through the feature configuration.
 Example:
 
 ```typescript
-// src/config/featureConfig.ts
+// src/config/featuresConfig.ts
 export const FEATURES_CONFIG = {
   API_PAGINATION: true, // Set to false to disable pagination
 };
@@ -589,6 +565,8 @@ export const ROW_CONFIG: RowConfig = {
 
 The app initially loads `API_PAGE_SIZE` number of cards for each row. This provides immediate content while keeping initial load times fast.
 
+A page with fewer than `API_PAGE_SIZE` cards is treated as the last page of the row, and an empty page ends the row too. If your backend caps its page size, set `API_PAGE_SIZE` to that cap or lower, or pagination stops after the first capped page.
+
 ### Implementation details
 
 #### Trigger logic
@@ -610,7 +588,7 @@ The system prevents duplicate requests through several mechanisms.
 Example:
 
 ```typescript
-const isAlreadyRequested = cardData.index <= pagination.lastRequestedIndex;
+const isAlreadyRequested = currentRowLength <= pagination.lastRequestedOffset;
 const isCurrentlyLoading = pagination.isLoading;
 const hasNoMoreData = !pagination.hasMore;
 
@@ -715,7 +693,7 @@ When API requests fail, the system performs the following:
 1. Logs the error for debugging.
 2. Updates the pagination state with error information.
 3. Stops the loading indicator.
-4. Allows users to retry by navigating away and back.
+4. Restores the last requested offset, so the next focus on a trailing card retries.
 
 Example:
 
@@ -726,6 +704,7 @@ try {
 } catch (error) {
   const errorMessage = error instanceof Error ? error.message : 'Unknown error';
   console.error(`[API PAGINATION] Failed to fetch more cards for row ${rowIndex}:`, error);
+  dispatch(setLastRequestedOffset({ rowIndex, offset: previousOffset }));
   dispatch(setPaginationError({ rowIndex, error: errorMessage }));
   return [];
 }
@@ -786,8 +765,8 @@ console.log(`[API PAGINATION] Row ${rowIndex} updated and now has ${row.data.len
 **Duplicate requests:**
 
 - The system should prevent duplicates automatically.
-- Check console logs for request deduplication messages.
-- Verify `lastRequestedIndex` is being updated correctly.
+- The guard skips a duplicate request silently (it returns an empty list), so check the `[API PAGINATION] Triggering pagination` logs: each offset should be requested once.
+- Verify `lastRequestedOffset` is being updated correctly.
 
 **Performance issues:**
 

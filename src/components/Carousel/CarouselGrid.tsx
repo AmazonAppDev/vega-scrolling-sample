@@ -10,7 +10,6 @@ import {
   CarouselItemStyleProps,
   AnimationDurationProps,
 } from '@amazon-devices/vega-carousel';
-import {SCREEN_DIMENSION} from '../../constants';
 import {RowData} from '../../types';
 import {buildRowRenderer, rowKeyExtractor} from '../../utils/listUtils';
 import {store} from '../../store';
@@ -41,10 +40,11 @@ const onSelectionChanged = (event: CarouselSelectionChangeEvent): void => {
   }
 };
 
+// Fill the tab content area, not the whole screen.
 const CONTAINER_STYLE = {
-  height: SCREEN_DIMENSION.height,
-  width: SCREEN_DIMENSION.width,
-};
+  height: '100%',
+  width: '100%',
+} as const;
 
 const ITEM_STYLE: CarouselItemStyleProps = {
   itemPadding: scaleUxToDp(20),

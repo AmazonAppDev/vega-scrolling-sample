@@ -1,36 +1,29 @@
 import React, {memo} from 'react';
 import {CardProps, CardType} from '../types';
-import {Card} from './Card';
-import {DEFAULT_IMAGE_RESOLUTION} from '../constants';
+import {Card, isSameCardData} from './Card';
 
-const checkIfDataSame = (
-  prevProps: Omit<CardProps, 'cardType'>,
-  nextProps: Omit<CardProps, 'cardType'>,
-) => {
-  const dataSame =
-    prevProps.data.resolutions[DEFAULT_IMAGE_RESOLUTION] ===
-      nextProps.data.resolutions[DEFAULT_IMAGE_RESOLUTION] &&
-    prevProps.data.index === nextProps.data.index &&
-    prevProps.data.rowIndex === nextProps.data.rowIndex;
-  return dataSame;
-};
+type WrapperProps = Omit<CardProps, 'cardType'>;
+// Each wrapper compares the image URL at the resolution its card renders.
+const sameDataFor =
+  (cardType: CardType) => (prev: WrapperProps, next: WrapperProps) =>
+    isSameCardData(cardType, prev.data, next.data);
 
 export const HeroCard = memo(({data, onFocus}: Omit<CardProps, 'cardType'>) => {
   return <Card cardType="HERO" data={data} onFocus={onFocus} />;
-}, checkIfDataSame);
+}, sameDataFor('HERO'));
 
 export const VerticalCard = memo(
   ({data, onFocus}: Omit<CardProps, 'cardType'>) => {
     return <Card cardType="VERTICAL" data={data} onFocus={onFocus} />;
   },
-  checkIfDataSame,
+  sameDataFor('VERTICAL'),
 );
 
 export const RegularCard = memo(
   ({data, onFocus}: Omit<CardProps, 'cardType'>) => {
     return <Card cardType="REGULAR" data={data} onFocus={onFocus} />;
   },
-  checkIfDataSame,
+  sameDataFor('REGULAR'),
 );
 
 export const CARD_VARIATIONS: Record<

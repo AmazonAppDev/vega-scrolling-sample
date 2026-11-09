@@ -73,9 +73,13 @@ const SELECTION_BORDER: SelectionBorderProps = {
  * allows vertical scrolling. It maintains the same functionality as the
  * Carousel but orients it to display items in a vertical direction.
  * @param data - Data source
+ * @param selectionStrategy - Carousel selection strategy (default 'anchored')
  * @returns Vertical Scrollable
  */
-export const VerticalScrollable = ({data}: ScrollableProps) => {
+export const VerticalScrollable = ({
+  data,
+  selectionStrategy = 'anchored',
+}: ScrollableProps) => {
   const getItem = useCallback(
     (index: number) =>
       index >= 0 && index < data.length ? data[index] : undefined,
@@ -111,7 +115,7 @@ export const VerticalScrollable = ({data}: ScrollableProps) => {
       containerStyle={CAROUSEL_STYLE.verticalCarouselContainerStyle}
       itemStyle={ITEM_STYLE}
       animationDuration={ANIMATION_DURATION}
-      selectionStrategy="anchored"
+      selectionStrategy={selectionStrategy}
       pinnedSelectedItemOffset="start"
       onSelectionChanged={onSelectionChanged}
       selectionBorder={SELECTION_BORDER}

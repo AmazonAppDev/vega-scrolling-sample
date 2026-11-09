@@ -1,18 +1,25 @@
 import React, {memo, useCallback} from 'react';
 import {Image, Pressable, StyleSheet} from 'react-native';
-import {CardProps} from '../types';
+import {CardData, CardProps, CardType} from '../types';
 import {CARD_CONFIG} from '../config/layout/cardConfig';
-import {DEFAULT_IMAGE_RESOLUTION} from '../constants';
 
-const checkIfDataSame = (prevProps: CardProps, nextProps: CardProps) => {
-  const dataSame =
-    prevProps.cardType === nextProps.cardType &&
-    prevProps.data.resolutions[DEFAULT_IMAGE_RESOLUTION] ===
-      nextProps.data.resolutions[DEFAULT_IMAGE_RESOLUTION] &&
-    prevProps.data.index === nextProps.data.index &&
-    prevProps.data.rowIndex === nextProps.data.rowIndex;
-  return dataSame;
+// Compares the image URL the card renders, not a fixed resolution.
+export const isSameCardData = (
+  cardType: CardType,
+  prev: CardData,
+  next: CardData,
+) => {
+  const rendered = CARD_CONFIG[cardType].CARD.RESOLUTION;
+  return (
+    prev.resolutions[rendered] === next.resolutions[rendered] &&
+    prev.index === next.index &&
+    prev.rowIndex === next.rowIndex
+  );
 };
+
+export const checkIfDataSame = (prevProps: CardProps, nextProps: CardProps) =>
+  prevProps.cardType === nextProps.cardType &&
+  isSameCardData(nextProps.cardType, prevProps.data, nextProps.data);
 
 export const Card = memo(({cardType, data, onFocus}: CardProps) => {
   const focusHandler = useCallback(() => {
