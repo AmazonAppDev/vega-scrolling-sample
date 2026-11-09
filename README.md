@@ -16,7 +16,7 @@ Introduction
 Branches
 --------
 
-> **Heads up:** `main` targets **Vega OS 2.0** and needs Vega SDK 2.0. `release-rn-83` targets **Vega OS 1.2**. Each branch sets its OS in the `[os.version]` section of `manifest.toml`; check the branch you're on before you build.
+> **Heads up:** `main` targets **Vega OS 2.0** and needs Vega SDK 2.0. `release-rn-83` targets **Vega OS 1.2**. Both set their OS in the `[os.version]` section of `manifest.toml`; `release-rn-0.72` does not set one. Check the branch you're on before you build.
 
 | Branch | React Native | Vega OS | Use when |
 |--------|--------------|---------|----------|
@@ -60,8 +60,8 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/latest/set
 4. At the command prompt, in the **build** folder, verify that you generated the VPKG files for your device's architecture.
 
    * **armv7-release/keplerscrollingapp_armv7.vpkg**&mdash;generated on x86_64 and Mac-M series devices to run on the Vega Fire TV Stick.
-   * **x86_64-release/keplerscrollingapp_x86_64.vpkg**&mdash;generated on x86_64 device to run on the KVD.
-   * **aarch64-release/keplerscrollingapp_aarch64.vpkg**&mdash;generated on Mac M-series device to run on the KVD.
+   * **x86_64-release/keplerscrollingapp_x86_64.vpkg**&mdash;generated on x86_64 device to run on the Vega Virtual Device (VVD).
+   * **aarch64-release/keplerscrollingapp_aarch64.vpkg**&mdash;generated on Mac M-series device to run on the VVD.
    
 ### Step 2: Run the app
 
@@ -80,13 +80,13 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/latest/set
    - On Mac M-series based devices. 
       
       ```
-      vega run-app build/aarch64-release/keplerscrollingapp_aarch64.vpkg
+      vega run-app build/aarch64-release/keplerscrollingapp_aarch64.vpkg com.amazondeveloper.keplerscrollingapp.main -d VirtualDevice
       ```
 
    - On x86_64 based devices.
       
      ```
-     vega run-app build/x86_64-release/keplerscrollingapp_x86_64.vpkg
+     vega run-app build/x86_64-release/keplerscrollingapp_x86_64.vpkg com.amazondeveloper.keplerscrollingapp.main -d VirtualDevice
      ```  
 
 #### Fire TV Stick
@@ -96,7 +96,7 @@ You can also use [Vega Studio](https://developer.amazon.com/docs/vega/latest/set
 2. To install and launch the app on your Fire TV Stick, run the following command.
 
    ```
-   vega run-app build/armv7-release/keplerscrollingapp_armv7.vpkg
+   vega run-app build/armv7-release/keplerscrollingapp_armv7.vpkg com.amazondeveloper.keplerscrollingapp.main -d <DSN>
    ```
 Demo videos
 --------------
