@@ -27,6 +27,7 @@ import {
 import {Button} from '@amazon-devices/kepler-ui-components';
 import {ItemType, ScrollableProps} from '../Types';
 import {scaleUxToDp} from '../../utils/PixelUtils';
+import {DEMO_BUTTON_STYLE} from './Style';
 
 const INITIAL_START_INDEX = 5;
 const PIN = '44%';
@@ -108,6 +109,8 @@ export const PinnedVertical = forwardRef(
                   label={`→${idx}`}
                   onPress={() => carouselRef.current?.scrollTo(idx, true)}
                   variant={'primary'}
+                  style={DEMO_BUTTON_STYLE.container}
+                  labelStyle={DEMO_BUTTON_STYLE.label}
                 />
               </View>
             ))}

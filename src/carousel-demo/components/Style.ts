@@ -48,3 +48,20 @@ export const CAROUSEL_STYLE = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+// Size for the kepler-ui-components Buttons in the demos. Versions after 3.1
+// scale the library's Button sizes by window height / 1080, which makes them
+// about half as big on a 960x540 dp TV window. These are the library's
+// default ('md') sizes as 3.1 drew them, so the demo screens keep the look
+// they were designed with.
+export const DEMO_BUTTON_STYLE = StyleSheet.create({
+  container: {
+    height: 84,
+    paddingHorizontal: 18,
+    borderWidth: 3,
+    borderRadius: 8,
+  },
+  label: {
+    fontSize: 24,
+  },
+});
