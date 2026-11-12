@@ -1,12 +1,11 @@
 # Carousel demo tabs
 
-This app demonstrates the carousel from `@amazon-devices/vega-carousel` (referred to here as
-**V2**) alongside the earlier carousel from `@amazon-devices/kepler-ui-components` (referred to
-here as **V1**). Each demo is provided as a **V2 / V1 pair** so the two components can be compared
-side by side. V2 is the recommended component for new apps.
+The tabs demonstrate the carousel from `@amazon-devices/vega-carousel` (referred to here as
+**V2**), the recommended component for new apps. The V1 columns below list the equivalent props of
+the earlier carousel from `@amazon-devices/kepler-ui-components` (**V1**), as a reference for
+migrating; the app itself renders V2 only.
 
-Each tab shows an on-screen label with the focus prop it uses: `selectionStrategy` on V2, and the
-equivalent `focusIndicatorType` on V1.
+Each tab shows an on-screen label with the `selectionStrategy` and `selectionBorder` props it uses.
 
 ## What the tabs show
 
@@ -31,5 +30,5 @@ equivalent `focusIndicatorType` on V1.
 | `hasTVPreferredFocus` | `hasPreferredFocus` |
 | `itemSelectionExpansion` | `itemStyle.selectedItemScaleFactor` |
 
-Use the comparison tabs to see each behavior on V1 and V2. To experiment, use the matching tab,
-adjust the props, and share the change (see the repository's contribution guidance).
+To experiment, open the matching tab, adjust the props, and share the change (see the
+repository's contribution guidance).

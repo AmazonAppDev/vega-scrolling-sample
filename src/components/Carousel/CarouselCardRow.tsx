@@ -23,6 +23,7 @@ import {
   cardKeyExtractor,
   checkIfCardRowDataSame,
 } from '../../utils/listUtils';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Module-scope handlers/objects: stable references shared across all rows.
 const notifyDataError = (_error: CarouselDataError): boolean => false; // Don't retry
@@ -38,8 +39,8 @@ const onSelectionChanged = (event: CarouselSelectionChangeEvent): void => {
 };
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(20),
+  itemPaddingOnSelection: scaleUxToDp(20),
   pressedItemScaleFactor: 0.8,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,
@@ -57,6 +58,7 @@ export const CarouselCardRow = memo(({rowIndex}: CardRowProps) => {
   const dispatch = useDispatch();
   const paginationBatchSize = ROW_CONFIG[row.cardType].API_PAGE_SIZE;
 
+  // See the README's API Pagination section for how onFocusUpdate pages a row.
   const onFocusUpdate = useCallback(
     (cardData: CardData) => {
       if (FEATURES_CONFIG.API_PAGINATION) {

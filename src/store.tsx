@@ -22,7 +22,7 @@ const initialData: RowData[] = ROW_DATA.map((row) => {
       isLoading: false,
       hasMore: true,
       error: null,
-      lastRequestedPage: -1,
+      lastRequestedOffset: -1,
     },
   };
 });
@@ -52,15 +52,25 @@ export const slice = createSlice({
       state[rowIndex].pagination.error = error;
       state[rowIndex].pagination.isLoading = false;
     },
-    setLastRequestedPage: (
+    setLastRequestedOffset: (
       state,
       action: PayloadAction<{
         rowIndex: number;
-        page: number;
+        offset: number;
       }>,
     ) => {
-      const {rowIndex, page} = action.payload;
-      state[rowIndex].pagination.lastRequestedPage = page;
+      const {rowIndex, offset} = action.payload;
+      state[rowIndex].pagination.lastRequestedOffset = offset;
+    },
+    setPaginationHasMore: (
+      state,
+      action: PayloadAction<{
+        rowIndex: number;
+        hasMore: boolean;
+      }>,
+    ) => {
+      const {rowIndex, hasMore} = action.payload;
+      state[rowIndex].pagination.hasMore = hasMore;
     },
     addRowData: (
       state,
@@ -103,7 +113,8 @@ export const {
   addRowData,
   setPaginationLoading,
   setPaginationError,
-  setLastRequestedPage,
+  setLastRequestedOffset,
+  setPaginationHasMore,
 } = slice.actions;
 export type RootState = ReturnType<typeof store.getState>;
 export type DispatchType = typeof store.dispatch;

@@ -4,6 +4,7 @@ import {HorizontalScrollable} from '../components/HorizontalScrollable';
 import {Button} from '@amazon-devices/kepler-ui-components';
 import {CarouselRef} from '@amazon-devices/vega-carousel';
 import {MOVIES_DATA} from '../Data/MoviesData';
+import {DEMO_BUTTON_STYLE} from '../components/Style';
 import {styles} from './Styles';
 
 export const ScrollToItemScreen = () => {
@@ -22,7 +23,13 @@ export const ScrollToItemScreen = () => {
         />
       </View>
       <View style={styles.gap}>
-        <Button label="ScrollTo" onPress={onPressHandler} variant={'primary'} />
+        <Button
+          label="ScrollTo"
+          onPress={onPressHandler}
+          variant={'primary'}
+          style={DEMO_BUTTON_STYLE.container}
+          labelStyle={DEMO_BUTTON_STYLE.label}
+        />
       </View>
     </View>
   );
