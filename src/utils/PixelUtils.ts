@@ -1,6 +1,7 @@
 import {Dimensions, PixelRatio} from 'react-native';
 
-const SCREEN_DP = Dimensions.get('window');
+// Read once at import: the TV window size is fixed for the app's lifetime.
+export const SCREEN_DP = Dimensions.get('window');
 const REFERENCE_HEIGHT = 1080;
 
 export const scaleUxToDp = (
