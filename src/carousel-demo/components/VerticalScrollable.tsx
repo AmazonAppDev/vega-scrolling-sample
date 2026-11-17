@@ -7,12 +7,11 @@ import {
   ShiftFactor,
   CarouselItemStyleProps,
   AnimationDurationProps,
-  SelectionBorderProps,
 } from '@amazon-devices/vega-carousel';
 import {useCallback, useMemo} from 'react';
 import React from 'react';
 import {ItemType, ScrollableProps} from '../Types';
-import {CAROUSEL_STYLE} from './Style';
+import {CAROUSEL_STYLE, FOCUS_RING} from './Style';
 import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Module scope so ItemView is a stable component type; defining it inside the
@@ -56,16 +55,6 @@ const ANIMATION_DURATION: AnimationDurationProps = {
   itemPressedDuration: 0.18,
   itemScrollDuration: 0.2,
   containerSelectionChangeDuration: 0.22,
-};
-
-const SELECTION_BORDER: SelectionBorderProps = {
-  borderStrategy: 'outset',
-  borderColor: '#FFC107',
-  borderWidth: scaleUxToDp(5),
-  borderRadius: scaleUxToDp(10),
-  borderStrokeRadius: scaleUxToDp(5),
-  borderStrokeColor: 'yellow',
-  borderStrokeWidth: scaleUxToDp(2),
 };
 
 /**
@@ -118,7 +107,7 @@ export const VerticalScrollable = ({
       selectionStrategy={selectionStrategy}
       pinnedSelectedItemOffset="start"
       onSelectionChanged={onSelectionChanged}
-      selectionBorder={SELECTION_BORDER}
+      selectionBorder={FOCUS_RING}
     />
   );
 };

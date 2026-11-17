@@ -11,10 +11,10 @@ import {
   CarouselRenderInfo,
   CarouselItemStyleProps,
   AnimationDurationProps,
-  SelectionBorderProps,
 } from '@amazon-devices/vega-carousel';
 import {Ref, forwardRef, useImperativeHandle, useRef} from 'react';
 import {ItemType, ScrollableProps} from '../Types';
+import {FOCUS_RING} from './Style';
 import {scaleUxToDp} from '../../utils/PixelUtils';
 
 type PinOffset = `${number}%`;
@@ -54,13 +54,6 @@ const SWIMLANE_ITEM_STYLE: CarouselItemStyleProps = {
 
 const SWIMLANE_ANIMATION_DURATION: AnimationDurationProps = {
   itemScrollDuration: 0.2,
-};
-
-const SWIMLANE_SELECTION_BORDER: SelectionBorderProps = {
-  borderStrategy: 'outset',
-  borderColor: '#00FF00',
-  borderWidth: scaleUxToDp(3),
-  borderRadius: scaleUxToDp(8),
 };
 
 const outerKeyProvider = (info: CarouselRenderInfo) => `swimlane-${info.index}`;
@@ -114,7 +107,7 @@ const Swimlane = ({swimlane}: {swimlane: SwimlaneData}) => {
         animationDuration={SWIMLANE_ANIMATION_DURATION}
         selectionStrategy="pinned"
         pinnedSelectedItemOffset={swimlane.pinOffset}
-        selectionBorder={SWIMLANE_SELECTION_BORDER}
+        selectionBorder={FOCUS_RING}
       />
     </View>
   );

@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {SelectionBorderProps} from '@amazon-devices/vega-carousel';
 import {scaleUxToDp} from '../../utils/PixelUtils';
 
 export const CAROUSEL_STYLE = StyleSheet.create({
@@ -65,3 +66,13 @@ export const DEMO_BUTTON_STYLE = StyleSheet.create({
     fontSize: 24,
   },
 });
+
+export const FOCUS_RING: SelectionBorderProps = {
+  borderStrategy: 'outset',
+  borderColor: '#FFC107',
+  borderWidth: scaleUxToDp(5),
+  borderRadius: scaleUxToDp(10),
+  borderStrokeRadius: scaleUxToDp(5),
+  borderStrokeColor: 'yellow',
+  borderStrokeWidth: scaleUxToDp(2),
+};

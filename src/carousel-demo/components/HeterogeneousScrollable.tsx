@@ -7,12 +7,11 @@ import {
   ShiftFactor,
   CarouselItemStyleProps,
   AnimationDurationProps,
-  SelectionBorderProps,
 } from '@amazon-devices/vega-carousel';
 import {useCallback, useMemo, useState} from 'react';
 import React from 'react';
 import {ItemType, ScrollableProps} from '../Types';
-import {CAROUSEL_STYLE} from './Style';
+import {CAROUSEL_STYLE, FOCUS_RING} from './Style';
 import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Defined at module scope so they are stable component types across renders.
@@ -95,16 +94,6 @@ const ANIMATION_DURATION: AnimationDurationProps = {
   containerSelectionChangeDuration: 0.25,
 };
 
-const SELECTION_BORDER: SelectionBorderProps = {
-  borderStrategy: 'inset',
-  borderColor: 'white',
-  borderWidth: scaleUxToDp(4),
-  borderRadius: scaleUxToDp(8),
-  borderStrokeRadius: scaleUxToDp(4),
-  borderStrokeColor: 'black',
-  borderStrokeWidth: scaleUxToDp(2),
-};
-
 /**
  * HeterogeneousItemViewScrollable showcases the Carousel's ability to have
  * different UI Item on a single scrollable row.
@@ -155,7 +144,7 @@ export const HeterogeneousItemViewScrollable = ({
         selectionStrategy={selectionStrategy}
         pinnedSelectedItemOffset="start"
         onSelectionChanged={onSelectionChanged}
-        selectionBorder={SELECTION_BORDER}
+        selectionBorder={FOCUS_RING}
       />
     </View>
   );

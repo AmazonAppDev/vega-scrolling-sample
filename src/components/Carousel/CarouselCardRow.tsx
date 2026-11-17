@@ -94,6 +94,8 @@ export const CarouselCardRow = memo(({rowIndex}: CardRowProps) => {
   const selectionBorder = useMemo<SelectionBorderProps>(
     () => ({
       borderStrategy: 'outset',
+      borderColor: '#FFFFFF',
+      borderWidth: scaleUxToDp(3),
       borderRadius: CARD_CONFIG[row.cardType].CARD.BORDER_RADIUS,
       borderStrokeRadius: CARD_CONFIG[row.cardType].CARD.BORDER_RADIUS,
     }),
