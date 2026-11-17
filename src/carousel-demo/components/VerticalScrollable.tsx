@@ -7,12 +7,12 @@ import {
   ShiftFactor,
   CarouselItemStyleProps,
   AnimationDurationProps,
-  SelectionBorderProps,
 } from '@amazon-devices/vega-carousel';
 import {useCallback, useMemo} from 'react';
 import React from 'react';
 import {ItemType, ScrollableProps} from '../Types';
-import {CAROUSEL_STYLE} from './Style';
+import {CAROUSEL_STYLE, FOCUS_RING} from './Style';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Module scope so ItemView is a stable component type; defining it inside the
 // parent would remount every item on each render.
@@ -44,8 +44,8 @@ const getSelectedItemOffset = (
 ): ShiftFactor | undefined => undefined; // Use the default offset.
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 5,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(10),
+  itemPaddingOnSelection: scaleUxToDp(20),
   pressedItemScaleFactor: 0.8,
   selectedItemScaleFactor: 1,
   getSelectedItemOffset,
@@ -57,24 +57,18 @@ const ANIMATION_DURATION: AnimationDurationProps = {
   containerSelectionChangeDuration: 0.22,
 };
 
-const SELECTION_BORDER: SelectionBorderProps = {
-  borderStrategy: 'outset',
-  borderColor: '#FFC107',
-  borderWidth: 3,
-  borderRadius: 5,
-  borderStrokeRadius: 3,
-  borderStrokeColor: 'yellow',
-  borderStrokeWidth: 1,
-};
-
 /**
  * A vertical scrollable is a wrapper around the Carousel component that
  * allows vertical scrolling. It maintains the same functionality as the
  * Carousel but orients it to display items in a vertical direction.
  * @param data - Data source
+ * @param selectionStrategy - Carousel selection strategy (default 'anchored')
  * @returns Vertical Scrollable
  */
-export const VerticalScrollable = ({data}: ScrollableProps) => {
+export const VerticalScrollable = ({
+  data,
+  selectionStrategy = 'anchored',
+}: ScrollableProps) => {
   const getItem = useCallback(
     (index: number) =>
       index >= 0 && index < data.length ? data[index] : undefined,
@@ -110,10 +104,10 @@ export const VerticalScrollable = ({data}: ScrollableProps) => {
       containerStyle={CAROUSEL_STYLE.verticalCarouselContainerStyle}
       itemStyle={ITEM_STYLE}
       animationDuration={ANIMATION_DURATION}
-      selectionStrategy="anchored"
+      selectionStrategy={selectionStrategy}
       pinnedSelectedItemOffset="start"
       onSelectionChanged={onSelectionChanged}
-      selectionBorder={SELECTION_BORDER}
+      selectionBorder={FOCUS_RING}
     />
   );
 };

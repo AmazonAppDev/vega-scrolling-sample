@@ -5,6 +5,7 @@ import {Grid} from './config';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {TVFocusGuideView} from '@amazon-devices/react-native-kepler';
 import {SCREEN_DIMENSION} from './constants';
+import {scaleUxToDp} from './utils/PixelUtils';
 import {MOVIES_DATA} from './carousel-demo/Data/MoviesData';
 import {HorizontalScrollable} from './carousel-demo/components/HorizontalScrollable';
 import {VerticalScrollable} from './carousel-demo/components/VerticalScrollable';
@@ -132,16 +133,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   sidebar: {
-    width: 75,
+    width: scaleUxToDp(150),
     flexGrow: 0,
     flexShrink: 0,
     height: '100%',
     backgroundColor: '#1b1f24',
-    paddingTop: 12,
+    paddingTop: scaleUxToDp(24),
   },
   tab: {
-    paddingVertical: 6,
-    paddingHorizontal: 7,
+    paddingVertical: scaleUxToDp(12),
+    paddingHorizontal: scaleUxToDp(14),
   },
   tabActive: {
     backgroundColor: '#33414f',
@@ -151,26 +152,26 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     color: '#ffffff',
-    fontSize: 8,
+    fontSize: scaleUxToDp(16),
   },
   content: {
     flex: 1,
     height: '100%',
     overflow: 'hidden',
-    padding: 12,
+    padding: scaleUxToDp(24),
   },
   contentInner: {
     flex: 1,
   },
   descriptionLabel: {
     color: '#e6edf3',
-    fontSize: 8,
-    marginBottom: 3,
+    fontSize: scaleUxToDp(15),
+    marginBottom: scaleUxToDp(6),
   },
   indicatorLabel: {
     color: '#9fb3c8',
-    fontSize: 7,
+    fontSize: scaleUxToDp(13),
     fontFamily: 'monospace',
-    marginBottom: 4,
+    marginBottom: scaleUxToDp(8),
   },
 });

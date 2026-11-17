@@ -13,41 +13,18 @@ export const rowKeyExtractor = (info: CarouselRenderInfo<RowData>) => {
   return `${info.item.cardType} ROW-${info.index}`;
 };
 
-// FlashList calls keyExtractor with (item, index), not a CarouselRenderInfo, so
-// it needs its own extractors — the Carousel ones above would crash here.
-export const flashlistCardKeyExtractor = (item: CardData, index: number) => {
-  return `${item.cardType} CARD-${index} [${item.dataIndex}]`;
-};
-
-export const flashlistRowKeyExtractor = (item: RowData, index: number) => {
-  return `${item.cardType} ROW-${index}`;
-};
-
-export const buildCardRenderer = ({scroll, onFocus}: Partial<CardProps>) => {
+export const buildCardRenderer = ({onFocus}: Partial<CardProps>) => {
   const renderCard = ({item}: {item: CardData; index: number}) => {
     const Card = CARD_VARIATIONS[item.cardType];
-    return (
-      <Card
-        data={item}
-        scroll={{
-          vertically: scroll?.vertically,
-          horizontally: scroll?.horizontally,
-        }}
-        onFocus={onFocus}
-      />
-    );
+    return <Card data={item} onFocus={onFocus} />;
   };
   return renderCard;
 };
 
-export const buildRowRenderer = (
-  scrollVertically?: (rowIndex: number) => void,
-) => {
+export const buildRowRenderer = () => {
   const renderRow = ({item}: {item: RowData; index: number}) => {
     const CardRow = CARD_ROW_VARIATIONS[item.cardType];
-    return (
-      <CardRow rowIndex={item.rowIndex} scrollVertically={scrollVertically} />
-    );
+    return <CardRow rowIndex={item.rowIndex} />;
   };
   return renderRow;
 };

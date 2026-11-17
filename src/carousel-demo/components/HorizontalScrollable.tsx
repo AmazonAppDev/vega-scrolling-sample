@@ -9,12 +9,12 @@ import {
   ShiftFactor,
   CarouselItemStyleProps,
   AnimationDurationProps,
-  SelectionBorderProps,
 } from '@amazon-devices/vega-carousel';
 import {Ref, forwardRef, useImperativeHandle, useRef} from 'react';
 
 import {ItemType, ScrollableProps} from '../Types';
-import {CAROUSEL_STYLE} from './Style';
+import {CAROUSEL_STYLE, FOCUS_RING} from './Style';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 // Module scope so ItemView is a stable component type; defining it inside the
 // parent would remount every item on each render.
@@ -41,17 +41,15 @@ const onSelectionChanged = (event: CarouselSelectionChangeEvent): void => {
   }
 };
 
-const FOCUSED_ITEM_SCALE_FACTOR = 1.1;
-const getSelectedItemOffset = (_info: CarouselRenderInfo): ShiftFactor => ({
-  width: FOCUSED_ITEM_SCALE_FACTOR,
-  height: FOCUSED_ITEM_SCALE_FACTOR,
-});
+const getSelectedItemOffset = (
+  _info: CarouselRenderInfo,
+): ShiftFactor | undefined => undefined; // Use the default offset.
 
 const ITEM_STYLE: CarouselItemStyleProps = {
-  itemPadding: 10,
-  itemPaddingOnSelection: 10,
+  itemPadding: scaleUxToDp(20),
+  itemPaddingOnSelection: scaleUxToDp(20),
   pressedItemScaleFactor: 0.9,
-  selectedItemScaleFactor: FOCUSED_ITEM_SCALE_FACTOR,
+  selectedItemScaleFactor: 1,
   getSelectedItemOffset,
 };
 
@@ -59,10 +57,6 @@ const ANIMATION_DURATION: AnimationDurationProps = {
   itemPressedDuration: 0.15,
   itemScrollDuration: 0.2,
   containerSelectionChangeDuration: 0.25,
-};
-
-const SELECTION_BORDER: SelectionBorderProps = {
-  borderStrategy: 'outset',
 };
 
 /**
@@ -122,7 +116,7 @@ export const HorizontalScrollable = forwardRef(
           selectionStrategy={selectionStrategy}
           pinnedSelectedItemOffset="start"
           onSelectionChanged={onSelectionChanged}
-          selectionBorder={SELECTION_BORDER}
+          selectionBorder={FOCUS_RING}
         />
       </View>
     );

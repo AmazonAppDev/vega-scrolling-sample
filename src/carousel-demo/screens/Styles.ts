@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {scaleUxToDp} from '../../utils/PixelUtils';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,10 +11,10 @@ export const styles = StyleSheet.create({
   },
   carousel: {
     height: '50%',
-    padding: 50,
+    padding: scaleUxToDp(100),
     width: '100%',
   },
   gap: {
-    paddingTop: 100,
+    paddingTop: scaleUxToDp(200),
   },
 });

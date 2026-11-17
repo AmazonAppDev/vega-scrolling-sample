@@ -85,6 +85,7 @@ const generateRowData = () => {
   let vIndex = 0; // tracks how many vertical images have been used
   let rowIndex = 0;
   let currentOffset = 0; // calculates offset of row from top. Useful for Flatlist getItemLayout prop
+  // Stop when either pool is used up, so no row draws from an empty pool.
   while (hIndex < IMAGES.horizontal.length && vIndex < IMAGES.vertical.length) {
     let cardType: CardType = ROW_ORDER[rowIndex % ROW_ORDER.length];
     let dataSource: ImageData[];
@@ -119,7 +120,7 @@ const generateRowData = () => {
         isLoading: false,
         hasMore: true,
         error: null,
-        lastRequestedPage: 0,
+        lastRequestedOffset: -1,
       },
     };
     currentOffset += ROW_CONFIG[cardType].HEIGHT;
